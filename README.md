@@ -123,6 +123,13 @@ Para trocar textos, depoimentos, perguntas ou professores, edite apenas
 Fraunces nos títulos, Inter no corpo. Nenhum tom pastel ou salmão.
 Nenhum travessão em nenhum texto da página.
 
+A Fraunces é variável e tem eixo de tamanho óptico (`opsz`, de 9 a 144). Com o
+valor automático, o navegador troca para o corte de display em títulos grandes,
+de traço fino e muito contraste. O projeto fixa o corte de texto com
+`font-optical-sizing: none`, o que mantém os títulos encorpados em qualquer
+tamanho. O título principal usa peso 700; os títulos de seção seguem no peso
+600 declarado no protótipo.
+
 ---
 
 ## Fidelidade ao protótipo
