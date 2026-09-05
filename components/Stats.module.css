@@ -1,0 +1,52 @@
+.band {
+  background: var(--pastel);
+}
+
+.stats {
+  display: grid;
+  grid-template-columns: 1fr;
+  background: var(--pastel);
+}
+
+.stat {
+  padding: 26px 24px;
+  border-bottom: 1px solid var(--hairline-dark);
+}
+
+.stats > .stat:last-child {
+  border-bottom: none;
+}
+
+.num,
+.label {
+  display: block;
+}
+
+.num {
+  font-family: var(--font-serif);
+  font-size: 1.8rem;
+  font-weight: 600;
+  color: var(--c3);
+}
+
+.label {
+  font-size: 0.9rem;
+  color: var(--ink-muted);
+  margin-top: 4px;
+}
+
+@container (min-width: 780px) {
+  .stats {
+    grid-template-columns: repeat(3, 1fr);
+  }
+
+  .stat {
+    border-bottom: none;
+    border-right: 1px solid var(--hairline-dark);
+    text-align: center;
+  }
+
+  .stats > .stat:last-child {
+    border-right: none;
+  }
+}

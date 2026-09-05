@@ -1,25 +1,26 @@
-# Talkwise English — Landing page de captura de leads
+# Talkwise English
 
-Landing page de alta conversão para um curso de inglês online, com foco em
-**captura de lead por e-mail** (isca digital). Não há back-end nem banco de
-dados: a página é 100% estática e pode ser publicada na Vercel sem nenhuma
-configuração extra.
+Landing page de captura de lead por e-mail para uma escola de inglês online.
+Construída a partir do protótipo visual aprovado (`talkwise-prototype.html`),
+com fidelidade verificada medida a medida.
+
+Sem back-end, sem banco de dados e sem persistência entre usuários: a página é
+gerada estaticamente e publica na Vercel com o build padrão.
 
 ---
 
 ## Stack
 
-| Camada        | Escolha                                              |
-| ------------- | ---------------------------------------------------- |
-| Framework     | Next.js 16 (App Router) + React 19                   |
-| Linguagem     | TypeScript (modo estrito)                            |
-| Estilos       | CSS Modules + tokens em CSS custom properties        |
-| Tipografia    | `next/font` com Sora (títulos) e Inter (corpo)       |
-| Ilustrações   | SVG autoral, escrito à mão em componentes React      |
-| Hospedagem    | Vercel (build padrão `next build`)                   |
+| Camada      | Escolha                                              |
+| ----------- | ---------------------------------------------------- |
+| Framework   | Next.js 16 (App Router) + React 19                   |
+| Linguagem   | TypeScript em modo estrito                           |
+| Estilos     | CSS Modules + tokens em custom properties            |
+| Tipografia  | `next/font` com Fraunces (títulos) e Inter (corpo)   |
+| Responsivo  | Container queries, ponto de virada único em 780px    |
+| Hospedagem  | Vercel, build padrão `next build`                    |
 
-Sem Tailwind, sem UI kit e sem dependências de runtime além do próprio Next —
-a página inteira é gerada estaticamente no build (`○ Static`).
+Sem Tailwind, sem UI kit e sem dependência de runtime além do próprio Next.
 
 ---
 
@@ -30,12 +31,10 @@ npm install
 npm run dev      # http://localhost:3000
 ```
 
-Outros scripts:
-
 ```bash
 npm run build      # build de produção
-npm run start      # serve o build de produção
-npm run lint       # ESLint (regras do Next + React Hooks)
+npm run start      # serve o build
+npm run lint       # ESLint
 npm run typecheck  # tsc --noEmit
 ```
 
@@ -43,41 +42,32 @@ npm run typecheck  # tsc --noEmit
 
 ## Deploy na Vercel
 
-1. Importe o repositório em <https://vercel.com/new>.
-2. Não altere nada: a Vercel detecta Next.js e usa `next build` automaticamente.
-3. (Opcional) Defina `NEXT_PUBLIC_SITE_URL` com o domínio final do projeto. Ela
-   alimenta os metadados, o `robots.txt` e o `sitemap.xml`. Deixar em branco é
-   seguro: `lib/site.ts` cai no domínio de produção que a própria Vercel injeta.
-
-Nenhum `vercel.json` é necessário.
+Importe o repositório em <https://vercel.com/new>. A Vercel detecta o Next.js e
+usa `next build` sem nenhuma configuração extra. Não existe `vercel.json`.
 
 ---
 
 ## Variáveis de ambiente
 
-Copie `.env.example` para `.env.local` e ajuste conforme o caso. Todas são
-opcionais — sem nenhuma delas o site funciona normalmente.
+Copie `.env.example` para `.env.local`. Todas são opcionais.
 
-| Variável                   | Para que serve                                                                 |
-| -------------------------- | ------------------------------------------------------------------------------ |
-| `NEXT_PUBLIC_SITE_URL`     | URL canônica usada em metadados, Open Graph, JSON-LD, `robots.txt` e `sitemap.xml`. Aceita com ou sem `https://`. Se estiver vazia ou inválida, o site cai no domínio de produção da Vercel e, na ausência dele, em `https://talkwise-english.vercel.app` — o build nunca quebra por causa dessa variável. |
-| `NEXT_PUBLIC_FORM_ENDPOINT`| Endpoint de um serviço de formulários (ex.: Formspree). Quando definido, o formulário faz `POST` real. |
+| Variável                    | Para que serve                                                                              |
+| --------------------------- | ------------------------------------------------------------------------------------------- |
+| `NEXT_PUBLIC_SITE_URL`      | URL canônica de metadados, Open Graph, JSON-LD, `robots.txt` e `sitemap.xml`. Aceita com ou sem `https://`. Vazia ou inválida, cai no domínio de produção que a Vercel injeta. |
+| `NEXT_PUBLIC_FORM_ENDPOINT` | Endpoint de um serviço de formulários. Definido, o formulário faz `POST` real.                |
 
 ### Formulário de captura
 
-O componente `components/LeadForm.tsx` tem dois modos:
+`components/LeadForm.tsx` tem dois modos:
 
-- **Sem `NEXT_PUBLIC_FORM_ENDPOINT`** (padrão): valida os campos, exibe o estado
-  de carregamento e mostra a confirmação de sucesso — sem enviar nada para lugar
-  nenhum. É o modo ideal para portfólio e demonstração.
-- **Com `NEXT_PUBLIC_FORM_ENDPOINT`**: envia um `POST` com
-  `{ nome, email, origem, material }` em JSON para o endpoint informado.
-  Para usar o Formspree, crie um formulário e aponte a variável para
+- **Sem `NEXT_PUBLIC_FORM_ENDPOINT`** (padrão): valida os campos, mostra o
+  estado de envio e exibe a confirmação, sem enviar nada para lugar nenhum.
+- **Com `NEXT_PUBLIC_FORM_ENDPOINT`**: faz `POST` com `{ nome, email, material }`
+  em JSON. Para usar o Formspree, aponte a variável para
   `https://formspree.io/f/SEU_ID`.
 
-O formulário também traz um campo-armadilha (*honeypot*) chamado `empresa`,
-invisível para pessoas e preenchido por robôs; quando preenchido, o envio é
-descartado silenciosamente.
+Há um campo-armadilha chamado `empresa`, invisível para pessoas: quando vem
+preenchido, o envio é descartado em silêncio.
 
 ---
 
@@ -85,66 +75,99 @@ descartado silenciosamente.
 
 ```
 app/
-  layout.tsx           metadados, fontes, JSON-LD (Organization, Course, FAQPage)
-  page.tsx             composição das seções da landing page
-  globals.css          tokens de design, reset, tipografia e primitivas (.btn, .container…)
+  layout.tsx           metadados, fontes e JSON-LD
+  page.tsx             composição da página
+  globals.css          tokens, reset e primitivas (.shell, .section, .btn-primary)
   icon.svg             favicon
-  opengraph-image.tsx  imagem de compartilhamento 1200×630, gerada no build
+  opengraph-image.tsx  imagem de compartilhamento gerada no build
   robots.ts            robots.txt
   sitemap.ts           sitemap.xml
 components/
-  Header.tsx      menu fixo, âncoras, seção ativa e menu hambúrguer
-  Hero.tsx        título, CTA principal e prova social
-  Benefits.tsx    três diferenciais
-  Method.tsx      método em quatro etapas
-  About.tsx       história da escola, números e professores
-  LeadForm.tsx    formulário de captura (usado duas vezes)
-  Testimonials.tsx
-  Faq.tsx         acordeão acessível
+  Header.tsx           faixa fixa, âncoras e menu hambúrguer
+  Hero.tsx             título, CTAs e selo de aula grátis
+  BoardingPass.tsx     cartão de embarque (perfuração e código de barras)
+  Stats.tsx            faixa de dados operacionais
+  Benefits.tsx         vantagens de falar inglês
+  Method.tsx           método em quatro etapas
+  About.tsx            texto institucional e professores
+  LeadForm.tsx         bloco de captura em painel camel
+  Testimonials.tsx     depoimentos em cartão-postal
+  Faq.tsx              acordeão com <details> nativo
   Footer.tsx
-  Icons.tsx       ícones de linha em SVG
-  Illustrations.tsx  ilustrações flat autorais
-  Reveal.tsx      revelação em scroll (progressive enhancement)
+  BrandMark.tsx        símbolo da marca
 lib/
-  content.ts      todo o conteúdo editorial em um único arquivo
-  site.ts         resolução tolerante a falhas da URL canônica do site
+  content.ts           todo o texto editorial em um arquivo só
+  site.ts              resolução tolerante a falhas da URL canônica
 ```
 
-Para trocar textos, depoimentos, perguntas do FAQ ou professores, edite apenas
+Para trocar textos, depoimentos, perguntas ou professores, edite apenas
 `lib/content.ts`.
 
 ---
 
 ## Identidade visual
 
-| Token                | Valor     | Uso                                             |
-| -------------------- | --------- | ----------------------------------------------- |
-| `--petrol`           | `#1B3A5C` | cor primária, títulos, seções escuras           |
-| `--coral`            | `#FF6B4A` | CTAs e destaques                                |
-| `--coral-ink`        | `#B43C1C` | coral escurecido, para **texto** sobre fundo claro |
-| `--coral-onDark`     | `#FF9E85` | coral clareado, para **texto** sobre azul petróleo |
-| `--bg`               | `#FAF9F6` | fundo off-white                                 |
-| `--ink`              | `#22262B` | texto (grafite, nunca preto puro)               |
+| Token          | Valor     | Uso                                                    |
+| -------------- | --------- | ------------------------------------------------------ |
+| `--navy`       | `#16324F` | fundo das faixas escuras                               |
+| `--pastel`     | `#F1EFEC` | fundo das faixas claras                                |
+| `--ink`        | `#1B2733` | texto sobre fundo claro                                |
+| `--ink-muted`  | `#5F6975` | texto de apoio                                         |
+| `--cream-text` | `#F5EFE6` | texto sobre marinho                                    |
+| `--cream-muted`| `#AEBAC9` | texto de apoio sobre marinho                           |
+| `--c1 · c2 · c3` | `#D9C4A3 · #B89768 · #8C6D45` | degradê camel dos botões e do bloco de captura |
+| `--c3-ink`     | `#7A5C36` | camel escurecido, para texto pequeno sobre fundo claro |
+| `--emph`       | `#E3BE8C` | a palavra "confiança" no título                        |
+| `--emph-grey`  | `#AAB4C0` | "inglês" e "possibilidades" no título                  |
 
-Tipografia: **Sora** nos títulos, botões e rótulos; **Inter** no corpo de texto.
+Fraunces nos títulos, Inter no corpo. Nenhum tom pastel ou salmão.
+Nenhum travessão em nenhum texto da página.
 
-### Acessibilidade
+---
 
-- Todos os pares de cor usados em texto passam no WCAG 2.1 AA (contraste ≥ 4,5:1).
-  Os botões coral usam tinta grafite (5,4:1) em vez de branco (2,8:1, reprovado).
-- Navegação completa por teclado: *skip link*, foco visível em todos os
-  controles, `Esc` fecha o menu mobile devolvendo o foco ao botão que o abriu.
-- Acordeão do FAQ segue o padrão ARIA (`aria-expanded` / `aria-controls`), e o
-  conteúdo fechado sai da árvore de acessibilidade.
-- Formulário com `<label>` associado, `aria-invalid`, `aria-describedby`,
-  mensagens de erro em texto e foco automático no primeiro campo inválido.
-- Animações respeitam `prefers-reduced-motion`; sem JavaScript, todo o conteúdo
-  continua visível.
+## Fidelidade ao protótipo
+
+Cada seção foi medida no navegador contra o protótipo renderizado a 1280px,
+comparando topo e altura de `header`, faixa de estatísticas, `#vantagens`,
+`#metodo`, `#sobre`, `#reservar`, `#alunos`, `#duvidas` e `footer`. Todas
+coincidem, exceto o bloco de captura, 19px mais alto por causa da correção de
+entrelinha descrita abaixo.
+
+Desvios deliberados, todos por acessibilidade ou por defeito de renderização
+do protótipo:
+
+1. `--ink-muted` de `#6B7580` para `#5F6975`: o original dava 4,08:1 sobre o
+   fundo claro e reprovava no WCAG AA.
+2. Degradê do botão primário com a última parada deslocada para 128%: medido
+   pixel a pixel sob o rótulo, o protótipo entregava 3,84:1 e esta versão
+   entrega 4,58:1.
+3. Parágrafo do bloco de captura em tinta sólida em vez de `rgba(...,0.75)`,
+   e com a mesma entrelinha 1,55 dos demais parágrafos do projeto: 4,00:1
+   para 6,34:1.
+4. Títulos de "Vantagens" e "Método" em `--ink` em vez do preto padrão do
+   navegador, alinhando com o resto do sistema de cores.
+5. Selo dos cartões-postais em `--c3-ink`, por ser texto de 9,6px.
+6. O código de barras do cartão de embarque é desenhado (no protótipo a `div`
+   estava vazia).
+
+---
+
+## Acessibilidade
+
+- 42 pares de cor auditados no navegador, zero reprovações; os textos sobre
+  degradê foram medidos por amostragem de pixel.
+- Navegação por teclado completa: link para pular o conteúdo, foco visível,
+  `Esc` fecha o menu mobile devolvendo o foco ao botão.
+- FAQ em `<details>` nativo, acessível por padrão.
+- Formulário com `<label>` associado, `aria-invalid`, `aria-describedby`, foco
+  automático no primeiro campo inválido e confirmação em `role="status"`.
+- Animações respeitam `prefers-reduced-motion`.
 
 ---
 
 ## Responsividade
 
-Layout mobile-first validado em 375 px, 768 px, 1440 px e 2560 px, sem rolagem
-horizontal em nenhuma largura. O conteúdo é limitado a 1180 px e centralizado,
-com fundos sangrando até a borda para que telas ultrawide não fiquem vazias.
+Ponto de virada único em 780px, via container queries, como no protótipo.
+Validado em 375px, 768px, 1280px, 1440px e 2560px, sem rolagem horizontal em
+nenhuma largura. O conteúdo é limitado a 1280px e centralizado, que é
+exatamente a largura em que o protótipo foi aprovado.

@@ -1,31 +1,30 @@
 import { ImageResponse } from "next/og";
 
-export const alt = "Talkwise English — Fale inglês com confiança em 90 dias";
+export const alt = "Talkwise English: fale inglês com confiança";
 export const size = { width: 1200, height: 630 };
 export const contentType = "image/png";
 
 /**
- * Busca o arquivo TrueType da Sora no Google Fonts durante o build.
- * O renderizador da imagem não lê woff2, por isso a requisição usa um
- * User-Agent antigo — que faz o Google devolver TTF. Se algo falhar ou
- * demorar demais, a imagem é gerada com a fonte padrão: o build nunca
- * depende dessa requisição para terminar.
+ * Busca o arquivo TrueType da Fraunces no Google Fonts durante o build.
+ * O renderizador não lê woff2, por isso a requisição usa um User-Agent antigo,
+ * que faz o Google devolver TTF. Se falhar ou demorar, a imagem sai com a
+ * fonte padrão: o build nunca depende dessa requisição.
  */
-async function loadSora(weight: 400 | 700): Promise<ArrayBuffer | null> {
+async function carregarFonte(familia: string, peso: number): Promise<ArrayBuffer | null> {
   try {
     const css = await fetch(
-      `https://fonts.googleapis.com/css2?family=Sora:wght@${weight}`,
+      `https://fonts.googleapis.com/css2?family=${familia}:wght@${peso}`,
       {
         headers: { "User-Agent": "Mozilla/5.0 (Windows NT 6.1; WOW64)" },
         signal: AbortSignal.timeout(8000),
       },
-    ).then((response) => response.text());
+    ).then((resposta) => resposta.text());
 
     const url = css.match(/src:\s*url\((https:[^)]+)\)/)?.[1];
     if (!url) return null;
 
-    return await fetch(url, { signal: AbortSignal.timeout(8000) }).then((response) =>
-      response.arrayBuffer(),
+    return await fetch(url, { signal: AbortSignal.timeout(8000) }).then((resposta) =>
+      resposta.arrayBuffer(),
     );
   } catch {
     return null;
@@ -33,11 +32,18 @@ async function loadSora(weight: 400 | 700): Promise<ArrayBuffer | null> {
 }
 
 export default async function OpengraphImage() {
-  const [regular, bold] = await Promise.all([loadSora(400), loadSora(700)]);
+  const [serif, sans] = await Promise.all([
+    carregarFonte("Fraunces", 600),
+    carregarFonte("Inter", 400),
+  ]);
+
   const fonts = [
-    regular && { name: "Sora", data: regular, weight: 400 as const, style: "normal" as const },
-    bold && { name: "Sora", data: bold, weight: 700 as const, style: "normal" as const },
-  ].filter((font): font is NonNullable<typeof font> => Boolean(font));
+    serif && { name: "Fraunces", data: serif, weight: 600 as const, style: "normal" as const },
+    sans && { name: "Inter", data: sans, weight: 400 as const, style: "normal" as const },
+  ].filter((fonte): fonte is NonNullable<typeof fonte> => Boolean(fonte));
+
+  const serifFamily = serif ? "Fraunces" : undefined;
+  const sansFamily = sans ? "Inter" : undefined;
 
   return new ImageResponse(
     (
@@ -49,51 +55,43 @@ export default async function OpengraphImage() {
           flexDirection: "column",
           justifyContent: "space-between",
           padding: "72px 80px",
-          backgroundColor: "#1B3A5C",
-          backgroundImage:
-            "radial-gradient(900px 520px at 88% 6%, rgba(255,107,74,0.32), transparent 62%)",
-          color: "#FFFFFF",
-          fontFamily: fonts.length ? "Sora" : undefined,
+          backgroundColor: "#16324F",
+          color: "#F5EFE6",
+          fontFamily: sansFamily,
         }}
       >
-        <div style={{ display: "flex", alignItems: "center", gap: 20 }}>
+        <div style={{ display: "flex", alignItems: "center", gap: 18 }}>
           <div
             style={{
               display: "flex",
-              alignItems: "center",
-              justifyContent: "center",
-              width: 68,
-              height: 68,
-              borderRadius: 22,
-              backgroundColor: "#FFFFFF",
+              width: 56,
+              height: 56,
+              borderRadius: 8,
+              background: "linear-gradient(135deg, #D9C4A3, #B89768)",
             }}
-          >
-            <div style={{ display: "flex", gap: 7 }}>
-              <div style={{ width: 11, height: 11, borderRadius: 6, backgroundColor: "#1B3A5C" }} />
-              <div style={{ width: 11, height: 11, borderRadius: 6, backgroundColor: "#1B3A5C" }} />
-              <div style={{ width: 11, height: 11, borderRadius: 6, backgroundColor: "#FF6B4A" }} />
-            </div>
-          </div>
-          <div style={{ display: "flex", fontSize: 34, fontWeight: 700, letterSpacing: -1 }}>
-            Talkwise English
-          </div>
+          />
+          <div style={{ display: "flex", fontSize: 34, fontFamily: serifFamily }}>Talkwise</div>
         </div>
 
         <div style={{ display: "flex", flexDirection: "column", gap: 26 }}>
           <div
             style={{
               display: "flex",
-              fontSize: 74,
-              fontWeight: 700,
-              lineHeight: 1.1,
-              letterSpacing: -2,
-              maxWidth: 900,
+              flexWrap: "wrap",
+              fontSize: 76,
+              lineHeight: 1.12,
+              letterSpacing: -1,
+              maxWidth: 940,
+              fontFamily: serifFamily,
             }}
           >
-            Fale inglês com confiança em 90 dias
+            <span>Fale&nbsp;</span>
+            <span style={{ color: "#AAB4C0" }}>inglês&nbsp;</span>
+            <span>com&nbsp;</span>
+            <span style={{ color: "#E3BE8C" }}>confiança.</span>
           </div>
-          <div style={{ display: "flex", fontSize: 30, color: "#C6D4E2", maxWidth: 860 }}>
-            Aulas ao vivo, 100% focadas em conversação real.
+          <div style={{ display: "flex", fontSize: 29, color: "#AEBAC9", maxWidth: 800 }}>
+            Aulas ao vivo, em grupos pequenos, com professores nativos.
           </div>
         </div>
 
@@ -102,16 +100,16 @@ export default async function OpengraphImage() {
             style={{
               display: "flex",
               padding: "16px 30px",
-              borderRadius: 999,
-              backgroundColor: "#FF6B4A",
-              color: "#22262B",
-              fontSize: 26,
-              fontWeight: 700,
+              borderRadius: 8,
+              background: "linear-gradient(135deg, #D9C4A3, #B89768)",
+              color: "#1B2733",
+              fontSize: 25,
+              fontWeight: 600,
             }}
           >
-            Aula experimental grátis
+            Reservar aula grátis
           </div>
-          <div style={{ display: "flex", fontSize: 24, color: "#C6D4E2" }}>
+          <div style={{ display: "flex", fontSize: 23, color: "#AEBAC9" }}>
             Sem cartão de crédito
           </div>
         </div>

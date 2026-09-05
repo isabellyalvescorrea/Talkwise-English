@@ -1,284 +1,88 @@
 .hero {
+  background: var(--navy);
+  padding-block: 56px 40px;
   position: relative;
   overflow: hidden;
-  padding-block: calc(var(--header-h) + clamp(2rem, 5vw, 4.5rem)) clamp(3rem, 6vw, 5.5rem);
-  isolation: isolate;
+  scroll-margin-top: 88px;
 }
 
-.hero::before {
-  content: "";
-  position: absolute;
-  inset: 0;
-  z-index: -2;
-  background:
-    /* Dissolve os brilhos antes da borda inferior, para que a emenda com a
-       próxima seção não apareça em telas largas. */
-    linear-gradient(180deg, rgba(250, 249, 246, 0) 62%, var(--bg) 100%),
-    radial-gradient(58rem 34rem at 82% 8%, rgba(27, 58, 92, 0.09), transparent 62%),
-    radial-gradient(42rem 30rem at 6% 88%, rgba(255, 107, 74, 0.13), transparent 60%),
-    linear-gradient(180deg, #ffffff 0%, var(--bg) 58%);
-}
-
-.hero::after {
-  content: "";
-  position: absolute;
-  z-index: -1;
-  inset-block-end: -12rem;
-  inset-inline-start: 50%;
-  width: min(120rem, 190vw);
-  height: 24rem;
-  transform: translateX(-50%);
-  background: radial-gradient(50% 50% at 50% 50%, rgba(27, 58, 92, 0.06), transparent 70%);
-  pointer-events: none;
-}
-
-.grid {
-  display: grid;
-  gap: clamp(2.5rem, 5vw, 3.5rem);
-  align-items: center;
+.inner {
+  display: flex;
+  flex-direction: column;
+  gap: 44px;
 }
 
 .copy {
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  gap: 1.5rem;
-  max-width: 36rem;
-}
-
-.badge {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.5rem;
-  padding: 0.4375rem 0.9375rem 0.4375rem 0.6875rem;
-  border-radius: var(--radius-pill);
-  border: 1px solid var(--coral-100);
-  background-color: var(--coral-050);
-  color: var(--coral-ink);
-  font-family: var(--font-title);
-  font-size: 0.8125rem;
-  font-weight: 600;
-  letter-spacing: 0.01em;
-  line-height: 1.35;
-}
-
-.badge svg {
-  flex: none;
+  position: relative;
+  z-index: 1;
 }
 
 .title {
-  margin: 0;
-}
-
-.title em {
-  position: relative;
-  font-style: normal;
-  color: var(--petrol);
-  white-space: nowrap;
-}
-
-.title em::after {
-  content: "";
-  position: absolute;
-  inset-inline: -0.06em;
-  inset-block-end: 0.16em;
-  height: 0.3em;
-  z-index: -1;
-  border-radius: var(--radius-pill);
-  background-color: rgba(255, 107, 74, 0.38);
-}
-
-.lead {
-  font-size: var(--fs-lead);
-  color: var(--ink-muted);
-  max-width: 34rem;
-}
-
-.actions {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.75rem;
-  width: 100%;
-}
-
-.actions :global(.btn) {
-  flex: 1 1 auto;
-}
-
-.microcopy {
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-  margin-top: -0.5rem;
-  font-size: var(--fs-sm);
-  color: var(--ink-muted);
-}
-
-.microcopy svg {
-  flex: none;
-  color: var(--petrol-400);
-}
-
-.proof {
-  display: flex;
-  align-items: center;
-  gap: 0.875rem;
-  flex-wrap: wrap;
-  padding-top: 0.5rem;
-  border-top: 1px solid var(--border);
-  width: 100%;
-}
-
-.avatars {
-  display: flex;
-  align-items: center;
-  flex: none;
-}
-
-.avatar {
-  display: grid;
-  place-items: center;
-  width: 2.375rem;
-  height: 2.375rem;
-  border-radius: 50%;
-  border: 2px solid var(--bg);
-  font-family: var(--font-title);
-  font-size: 0.75rem;
-  font-weight: 700;
-  letter-spacing: 0.02em;
-  color: var(--ink-onDark);
-}
-
-.avatar + .avatar {
-  margin-inline-start: -0.6875rem;
-}
-
-.avatar:nth-child(1) {
-  background-color: var(--petrol);
-}
-
-.avatar:nth-child(2) {
-  background-color: var(--petrol-400);
-}
-
-.avatar:nth-child(3) {
-  background-color: #b43c1c;
-}
-
-.proofText {
-  display: flex;
-  flex-direction: column;
-  gap: 0.125rem;
-  font-size: var(--fs-sm);
-  line-height: 1.4;
-}
-
-.stars {
-  display: inline-flex;
-  gap: 0.125rem;
-  color: var(--coral);
-}
-
-.proofText span {
-  color: var(--ink-muted);
-}
-
-.proofText strong {
-  color: var(--ink);
+  font-size: 2.5rem;
+  line-height: 1.14;
   font-weight: 600;
+  letter-spacing: -0.01em;
+  max-width: 14ch;
+  color: var(--cream-text);
 }
 
-/* --- Ilustração --- */
-
-.art {
-  position: relative;
-  width: 100%;
-  max-width: 34rem;
-  margin-inline: auto;
+.grey {
+  color: var(--emph-grey);
+  font-weight: 700;
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  .art {
-    animation: heroFloat 7s var(--ease) infinite alternate;
-  }
-
-  .copy > * {
-    animation: heroIn 620ms var(--ease) both;
-  }
-
-  .copy > *:nth-child(1) {
-    animation-delay: 40ms;
-  }
-  .copy > *:nth-child(2) {
-    animation-delay: 110ms;
-  }
-  .copy > *:nth-child(3) {
-    animation-delay: 180ms;
-  }
-  .copy > *:nth-child(4) {
-    animation-delay: 250ms;
-  }
-  .copy > *:nth-child(5) {
-    animation-delay: 320ms;
-  }
-  .copy > *:nth-child(6) {
-    animation-delay: 390ms;
-  }
+.emph {
+  color: var(--emph);
 }
 
-@keyframes heroFloat {
-  from {
-    transform: translateY(-0.5rem);
-  }
-  to {
-    transform: translateY(0.5rem);
-  }
+.lede {
+  margin-top: 20px;
+  font-size: 1.05rem;
+  line-height: 1.6;
+  color: var(--cream-muted);
+  max-width: 38ch;
 }
 
-@keyframes heroIn {
-  from {
-    opacity: 0;
-    transform: translateY(1rem);
-  }
-  to {
-    opacity: 1;
-    transform: none;
-  }
+.ctas {
+  margin-top: 30px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 14px;
+  align-items: center;
 }
 
-/* --- Breakpoints --- */
-
-@media (min-width: 30em) {
-  .actions :global(.btn) {
-    flex: 0 0 auto;
-  }
+.finePrint {
+  margin-top: 22px;
+  font-size: 0.85rem;
+  color: var(--cream-muted);
+  display: flex;
+  gap: 8px;
+  align-items: flex-start;
 }
 
-@media (min-width: 62em) {
-  .grid {
-    grid-template-columns: minmax(0, 1.02fr) minmax(0, 0.98fr);
-    gap: clamp(2rem, 4vw, 4rem);
+@container (min-width: 780px) {
+  .hero {
+    padding-block: 88px;
+  }
+
+  .inner {
+    flex-direction: row;
+    align-items: center;
+    gap: 64px;
   }
 
   .copy {
-    max-width: none;
+    flex: 1;
+    max-width: 520px;
   }
 
-  .art {
-    max-width: 36rem;
-  }
-}
-
-@media (min-width: 100em) {
-  .copy {
-    gap: 1.75rem;
+  .title {
+    font-size: 3.4rem;
+    max-width: 11ch;
   }
 
-  .lead {
-    max-width: 38rem;
-  }
-
-  .art {
-    max-width: 40rem;
+  .ticketSide {
+    flex: 1;
+    min-width: 0;
   }
 }

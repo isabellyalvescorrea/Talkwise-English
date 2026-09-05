@@ -1,203 +1,138 @@
-export type NavLink = {
-  label: string;
-  href: string;
-};
+export type NavLink = { label: string; href: string };
 
 export const NAV_LINKS: NavLink[] = [
-  { label: "Início", href: "#inicio" },
-  { label: "Metodologia", href: "#metodologia" },
-  { label: "Sobre nós", href: "#sobre" },
-  { label: "Depoimentos", href: "#depoimentos" },
-  { label: "Dúvidas Frequentes", href: "#duvidas" },
+  { label: "Vantagens", href: "#vantagens" },
+  { label: "Método", href: "#metodo" },
+  { label: "Sobre", href: "#sobre" },
+  { label: "Alunos", href: "#alunos" },
+  { label: "Dúvidas", href: "#duvidas" },
 ];
 
-/** Âncora usada por todos os CTAs de conversão do topo da página. */
-export const PRIMARY_CTA_HREF = "#ebook";
+/** Âncora do bloco de captura, alvo de todos os CTAs. */
+export const CTA_HREF = "#reservar";
 
-/** Âncora usada pelos CTAs do fim da página (segundo formulário). */
-export const SECONDARY_CTA_HREF = "#comecar";
+export type TicketDetail = { k: string; v: string };
 
-export type Benefit = {
-  icon: "globe" | "chat" | "clock";
-  title: string;
-  description: string;
+export const TICKET = {
+  label: "Cartão de embarque",
+  from: { k: "De", v: "Insegurança" },
+  to: { k: "Para", v: "Fluência" },
+  details: [
+    { k: "Duração", v: "90 dias" },
+    { k: "Formato", v: "Ao vivo" },
+    { k: "Turma", v: "Em breve" },
+    { k: "Nível", v: "Todos" },
+  ] satisfies TicketDetail[],
+  action: "Embarcar",
 };
+
+export type Stat = { num: string; label: string };
+
+export const STATS: Stat[] = [
+  { num: "6", label: "alunos, no máximo, por turma" },
+  { num: "8", label: "países de origem dos professores" },
+  { num: "2x", label: "aulas ao vivo por semana" },
+];
+
+export type Benefit = { title: string; text: string };
 
 export const BENEFITS: Benefit[] = [
   {
-    icon: "globe",
-    title: "Professores nativos",
-    description:
-      "Aulas com professores nativos e certificados, que ajustam o vocabulário ao seu objetivo — trabalho, viagem ou intercâmbio.",
+    title: "Mais oportunidades de trabalho",
+    text: "Muitas vagas remotas e internacionais colocam o inglês como pré-requisito, não como diferencial.",
   },
   {
-    icon: "chat",
-    title: "Método 100% conversação",
-    description:
-      "Você fala desde o primeiro dia. Nada de lista de verbos: a gramática entra só quando resolve um problema real da sua fala.",
+    title: "Acesso direto ao conhecimento",
+    text: "Boa parte do conteúdo técnico, acadêmico e cultural do mundo é produzida em inglês, sem tradução.",
   },
   {
-    icon: "clock",
-    title: "Flexibilidade total de horário",
-    description:
-      "Agenda aberta das 6h às 23h, com remarcação até duas horas antes. O inglês encaixa na sua rotina — e não o contrário.",
+    title: "Mais liberdade pra viajar",
+    text: "Resolver imprevistos, pedir informação e se virar sozinho fica muito mais simples em qualquer país.",
+  },
+  {
+    title: "Networking sem fronteiras",
+    text: "Conversar com pessoas de outras culturas abre portas profissionais e pessoais que não apareceriam de outro jeito.",
   },
 ];
 
-export type MethodStep = {
-  number: string;
-  icon: "compass" | "chat" | "repeat" | "medal";
-  title: string;
-  description: string;
-  duration: string;
-};
+export type Step = { n: string; title: string; text: string };
 
-export const METHOD_STEPS: MethodStep[] = [
+export const STEPS: Step[] = [
   {
-    number: "01",
-    icon: "compass",
+    n: "01",
     title: "Diagnóstico de nível",
-    description:
-      "Uma conversa de 30 minutos com um professor mapeia seu nível real, seus objetivos e os pontos exatos que travam a sua fala.",
-    duration: "Semana 1",
+    text: "Uma conversa de 20 minutos define exatamente onde você está e o que falta pra chegar aonde quer.",
   },
   {
-    number: "02",
-    icon: "chat",
+    n: "02",
     title: "Aulas de conversação",
-    description:
-      "Encontros ao vivo de 50 minutos, individuais ou em dupla, com temas tirados da sua rotina — reunião, viagem, entrevista.",
-    duration: "Semanas 1 a 12",
+    text: "Encontros ao vivo, em grupos pequenos, guiados por situações reais, não por apostilas.",
   },
   {
-    number: "03",
-    icon: "repeat",
+    n: "03",
     title: "Prática guiada",
-    description:
-      "Entre as aulas, missões de 10 minutos: áudios curtos, roleplays e correções comentadas pelo seu próprio professor.",
-    duration: "Todos os dias",
+    text: "Entre aulas, exercícios curtos de fala, com correção de professor, pra fixar o que foi praticado.",
   },
   {
-    number: "04",
-    icon: "medal",
+    n: "04",
     title: "Certificação",
-    description:
-      "Ao final dos 90 dias, uma banca avalia sua fluência e emite o certificado Talkwise, alinhado ao Quadro Europeu (CEFR).",
-    duration: "Semana 13",
+    text: "Ao final dos 90 dias, uma avaliação de conversação confirma seu novo nível.",
   },
 ];
 
-export type Teacher = {
-  name: string;
-  specialty: string;
-  origin: string;
-};
+export type Teacher = { name: string; from: string; spec: string };
 
 export const TEACHERS: Teacher[] = [
   {
-    name: "Erin Callahan",
-    specialty: "Conversação do dia a dia",
-    origin: "Dublin, Irlanda",
+    name: "Alex Turner",
+    from: "Manchester, Reino Unido",
+    spec: "Conversação para viagens e negócios",
   },
-  {
-    name: "Marcus Bell",
-    specialty: "Inglês para entrevistas",
-    origin: "Toronto, Canadá",
-  },
-  {
-    name: "Priya Raman",
-    specialty: "Business English",
-    origin: "Manchester, Reino Unido",
-  },
+  { name: "Priya Shah", from: "Toronto, Canadá", spec: "Preparação para entrevistas" },
+  { name: "Sam Okafor", from: "Austin, EUA", spec: "Apresentações e pitches" },
 ];
 
-export type Stat = {
-  value: string;
-  label: string;
-};
-
-export const STATS: Stat[] = [
-  { value: "2.400+", label: "alunos formados" },
-  { value: "4,9/5", label: "nota média das aulas" },
-  { value: "18", label: "professores certificados" },
-  { value: "92%", label: "concluem os 90 dias" },
-];
-
-export type Testimonial = {
-  name: string;
-  since: string;
-  quote: string;
-};
+export type Testimonial = { quote: string; meta: string };
 
 export const TESTIMONIALS: Testimonial[] = [
   {
-    name: "Camila Ferraz",
-    since: "aluna há 7 meses",
     quote:
-      "Tinha nove anos de curso de inglês e travava em qualquer conversa. Na Talkwise eu falei já na primeira aula. Hoje conduzo reuniões com o time da Irlanda sem suar frio.",
+      "Depois de anos travando, fechei negócio em inglês na terceira semana de aula. Nunca mais tive vergonha de errar.",
+    meta: "Camila R., aluna há 5 meses",
   },
   {
-    name: "Rodrigo Sanches",
-    since: "aluno há 4 meses",
     quote:
-      "O diagnóstico foi certeiro. Em vez de me jogarem num nível genérico, montaram a trilha em cima do vocabulário que eu de fato uso no trabalho.",
+      "O método é direto: você fala muito mais do que estuda gramática no papel. Foi o que funcionou pra mim depois de três cursos que não deram certo.",
+    meta: "Rafael L., aluno há 3 meses",
   },
   {
-    name: "Letícia Amorim",
-    since: "aluna há 11 meses",
     quote:
-      "As missões de 10 minutos entre as aulas mudaram tudo. É pouco tempo por dia, mas é constante — e a diferença apareceu em umas três semanas.",
-  },
-  {
-    name: "Thiago Nunes",
-    since: "aluno há 3 meses",
-    quote:
-      "Trabalho em escala 12x36 e achava que nunca conseguiria estudar. Como dá para remarcar até duas horas antes, não perdi uma aula sequer.",
-  },
-  {
-    name: "Priscila Rangel",
-    since: "aluna há 6 meses",
-    quote:
-      "Passei na entrevista em inglês de uma vaga remota. O professor simulou a conversa comigo três vezes antes; no dia, parecia só mais uma aula.",
+      "Os professores corrigem sem constranger. Isso mudou completamente minha vontade de tentar falar.",
+    meta: "Beatriz A., aluna há 8 meses",
   },
 ];
 
-export type Faq = {
-  question: string;
-  answer: string;
-};
+export type Faq = { q: string; a: string };
 
 export const FAQS: Faq[] = [
   {
-    question: "Preciso ter algum nível de inglês para começar?",
-    answer:
-      "Não. Recebemos desde quem nunca estudou até quem já fala e quer destravar. A aula de diagnóstico define o seu nível real, do A1 ao C1, e a trilha das 12 semanas é montada a partir dele — ninguém entra num pacote genérico.",
+    q: "Preciso ter algum nível de inglês?",
+    a: "Não. O diagnóstico inicial encontra o ponto de partida certo pra você, do zero ao avançado.",
   },
   {
-    question: "As aulas são ao vivo ou gravadas?",
-    answer:
-      "Todas as aulas são ao vivo, com professor na tela, em encontros de 50 minutos. O que fica gravado é a sua própria aula: você recebe o vídeo e as correções comentadas para revisar quando quiser.",
+    q: "As aulas são ao vivo ou gravadas?",
+    a: "Sempre ao vivo, em grupos pequenos. É isso que sustenta a prática de conversação real.",
   },
   {
-    question: "No fim do curso eu recebo certificado?",
-    answer:
-      "Sim. Depois da avaliação final de fluência você recebe o Certificado Talkwise com o nível alcançado segundo o Quadro Europeu Comum de Referência (CEFR), em versão digital e com código de verificação.",
+    q: "Tem certificado?",
+    a: "Sim, emitido após a avaliação de conversação ao final dos 90 dias.",
   },
   {
-    question: "Qual é a duração do curso?",
-    answer:
-      "O programa completo tem 90 dias, com duas aulas ao vivo por semana e prática guiada nos dias intercalados. Quem quiser acelerar pode fazer três aulas semanais e concluir em cerca de 60 dias.",
+    q: "Qual a duração de cada aula?",
+    a: "50 minutos, duas vezes por semana, com horários flexíveis pra encaixar na sua rotina.",
   },
   {
-    question: "Como funciona a aula experimental gratuita?",
-    answer:
-      "É uma conversa de 30 minutos, ao vivo, com um dos nossos professores. Você fala desde o primeiro minuto e sai com um diagnóstico do seu nível por escrito. Não pedimos cartão de crédito e não existe compromisso de contratar.",
+    q: "Posso cancelar quando quiser?",
+    a: "Sim, sem multa e sem burocracia. Basta avisar com uma semana de antecedência.",
   },
-];
-
-export const EBOOK_BULLETS: string[] = [
-  "100 frases prontas, separadas por situação: apresentação, small talk, trabalho e viagem.",
-  "Guia de pronúncia simplificado, sem alfabeto fonético.",
-  "Áudio de cada frase gravado por professor nativo.",
-  "PDF e áudios enviados na hora, direto no seu e-mail.",
 ];

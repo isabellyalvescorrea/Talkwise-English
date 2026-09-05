@@ -1,195 +1,38 @@
-.section {
-  position: relative;
-  overflow: hidden;
-  color: var(--ink-onDark);
-  background:
-    radial-gradient(38rem 26rem at 88% 4%, rgba(255, 107, 74, 0.22), transparent 60%),
-    radial-gradient(34rem 26rem at 4% 96%, rgba(47, 92, 138, 0.5), transparent 62%),
-    linear-gradient(160deg, var(--petrol) 0%, var(--petrol-900) 100%);
-}
-
-.section::before {
-  content: "";
-  position: absolute;
-  inset: 0;
-  background-image: radial-gradient(rgba(255, 255, 255, 0.09) 1.5px, transparent 1.6px);
-  background-size: 26px 26px;
-  opacity: 0.5;
-  pointer-events: none;
-}
-
-.section > * {
-  position: relative;
-}
-
-.head h2 {
-  color: var(--ink-onDark);
-}
-
-.head p {
-  color: var(--ink-onDark-muted);
-}
-
 .steps {
-  display: grid;
-  gap: 0;
-  margin-top: clamp(2.5rem, 5vw, 3.75rem);
+  display: flex;
+  flex-direction: column;
 }
 
 .step {
-  position: relative;
-  display: grid;
-  grid-template-columns: 3.5rem minmax(0, 1fr);
-  align-content: start;
-  gap: 1.25rem;
-  padding-bottom: 2rem;
+  display: flex;
+  gap: 22px;
+  padding: 26px 0;
+  border-top: 1px solid var(--hairline-dark);
 }
 
 .steps > .step:last-child {
-  padding-bottom: 0;
+  border-bottom: 1px solid var(--hairline-dark);
 }
 
-/* Linha vertical do "timeline" no mobile. */
-.step::before {
-  content: "";
-  position: absolute;
-  inset-block: 3.75rem 0.25rem;
-  inset-inline-start: 1.71875rem;
-  width: 2px;
-  background-image: linear-gradient(
-    to bottom,
-    rgba(255, 255, 255, 0.32) 0 6px,
-    transparent 6px 12px
-  );
-  background-size: 2px 12px;
-}
-
-.steps > .step:last-child::before {
-  display: none;
-}
-
-.badge {
-  display: grid;
-  place-items: center;
-  width: 3.5rem;
-  height: 3.5rem;
-  border-radius: 50%;
-  background-color: var(--coral);
-  color: var(--ink);
-  font-family: var(--font-title);
-  font-size: 1.125rem;
-  font-weight: 700;
-  letter-spacing: -0.01em;
-  box-shadow: 0 0 0 6px rgba(255, 107, 74, 0.16);
-  transition: transform var(--dur) var(--ease), box-shadow var(--dur) var(--ease);
-}
-
-.step:hover .badge {
-  transform: translateY(-3px);
-  box-shadow: 0 0 0 9px rgba(255, 107, 74, 0.2);
-}
-
-.content {
-  display: flex;
-  flex-direction: column;
-  gap: 0.625rem;
-  padding-top: 0.375rem;
-}
-
-.meta {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.5rem;
-  font-family: var(--font-title);
-  font-size: var(--fs-xs);
+.n {
+  font-family: var(--font-serif);
+  font-size: 1.6rem;
+  color: var(--c3);
   font-weight: 600;
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
-  color: var(--coral-onDark);
+  flex-shrink: 0;
+  width: 2ch;
 }
 
-.meta svg {
-  flex: none;
+.step h3 {
+  font-size: 1.1rem;
+  font-weight: 600;
+  margin-bottom: 6px;
+  color: var(--ink);
 }
 
-.content h3 {
-  margin: 0;
-  color: var(--ink-onDark);
-}
-
-.content p {
-  margin: 0;
-  color: var(--ink-onDark-muted);
-  max-width: 34rem;
-}
-
-.footer {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  justify-content: center;
-  gap: 1rem 1.5rem;
-  margin-top: clamp(2.5rem, 5vw, 3.5rem);
-  padding-top: clamp(2rem, 4vw, 2.75rem);
-  border-top: 1px solid var(--border-onDark);
-  text-align: center;
-}
-
-.footerNote {
-  color: var(--ink-onDark-muted);
-  font-size: var(--fs-sm);
-  max-width: 26rem;
-}
-
-@media (min-width: 48em) {
-  .steps {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: clamp(2rem, 4vw, 3rem);
-  }
-
-  .step {
-    padding-bottom: 0;
-  }
-
-  .step::before {
-    display: none;
-  }
-}
-
-@media (min-width: 64em) {
-  .steps {
-    grid-template-columns: repeat(4, minmax(0, 1fr));
-    gap: clamp(1.25rem, 2.4vw, 2rem);
-  }
-
-  .step {
-    grid-template-columns: minmax(0, 1fr);
-    gap: 1.25rem;
-  }
-
-  /* Conector horizontal entre as etapas. */
-  .step::before {
-    display: block;
-    inset-block: 1.6875rem auto;
-    inset-inline-start: 4.25rem;
-    inset-inline-end: calc(clamp(1.25rem, 2.4vw, 2rem) * -1);
-    width: auto;
-    height: 2px;
-    background-image: linear-gradient(
-      to right,
-      rgba(255, 255, 255, 0.32) 0 6px,
-      transparent 6px 12px
-    );
-    background-size: 12px 2px;
-  }
-
-  .content {
-    padding-top: 0;
-  }
-
-  /* Reserva duas linhas para o título, mantendo os textos alinhados
-     mesmo quando um deles quebra de linha. */
-  .content h3 {
-    min-height: calc(2 * 1.28em);
-  }
+.step p {
+  color: var(--ink-muted);
+  font-size: 0.95rem;
+  line-height: 1.55;
+  max-width: 48ch;
 }

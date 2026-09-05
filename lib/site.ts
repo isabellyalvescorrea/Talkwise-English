@@ -5,7 +5,7 @@ const FALLBACK_SITE_URL = "https://talkwise-english.vercel.app";
  *
  * Cuidados que o build da Vercel exige:
  * - variáveis `NEXT_PUBLIC_*` não declaradas chegam como string vazia (e não
- *   como `undefined`), então `??` não basta — é preciso testar o valor;
+ *   como `undefined`), então `??` não basta: é preciso testar o valor;
  * - o valor pode vir sem protocolo (`talkwise.com.br`) ao ser colado no painel;
  * - qualquer valor inválido precisa cair no padrão em vez de derrubar o build,
  *   porque `new URL("")` lança `ERR_INVALID_URL` durante a coleta de metadados.

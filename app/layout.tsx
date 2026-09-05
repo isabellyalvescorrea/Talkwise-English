@@ -1,13 +1,14 @@
 import type { Metadata, Viewport } from "next";
-import { Inter, Sora } from "next/font/google";
+import { Fraunces, Inter } from "next/font/google";
 import { FAQS } from "@/lib/content";
 import { SITE_URL } from "@/lib/site";
 import "./globals.css";
 
-const sora = Sora({
+const fraunces = Fraunces({
   subsets: ["latin"],
   display: "swap",
-  variable: "--font-sora",
+  variable: "--font-fraunces",
+  axes: ["opsz"],
 });
 
 const inter = Inter({
@@ -16,9 +17,9 @@ const inter = Inter({
   variable: "--font-inter",
 });
 
-const title = "Talkwise English — Fale inglês com confiança em 90 dias";
+const title = "Talkwise English: fale inglês com confiança";
 const description =
-  "Aulas ao vivo focadas em conversação real, com professores nativos e horários flexíveis. Baixe grátis as 100 frases essenciais para a sua primeira conversa em inglês.";
+  "Aulas de inglês ao vivo, em grupos pequenos, com professores nativos. Você pratica desde o primeiro encontro. Baixe grátis o guia com as 100 frases essenciais pra sua primeira conversa.";
 
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
@@ -29,17 +30,14 @@ export const metadata: Metadata = {
   description,
   applicationName: "Talkwise English",
   keywords: [
-    "curso de inglês",
-    "inglês online",
+    "curso de inglês online",
     "aulas de conversação",
     "professores nativos",
-    "fluência em inglês",
+    "inglês em grupos pequenos",
     "aula de inglês grátis",
   ],
   authors: [{ name: "Talkwise English" }],
-  alternates: {
-    canonical: "/",
-  },
+  alternates: { canonical: "/" },
   openGraph: {
     type: "website",
     locale: "pt_BR",
@@ -53,20 +51,17 @@ export const metadata: Metadata = {
     title,
     description,
   },
-  robots: {
-    index: true,
-    follow: true,
-  },
+  robots: { index: true, follow: true },
 };
 
 export const viewport: Viewport = {
-  themeColor: "#FAF9F6",
+  themeColor: "#16324F",
   colorScheme: "light",
   width: "device-width",
   initialScale: 1,
 };
 
-const structuredData = {
+const dadosEstruturados = {
   "@context": "https://schema.org",
   "@graph": [
     {
@@ -76,17 +71,15 @@ const structuredData = {
       url: SITE_URL,
       description,
       areaServed: "BR",
-      slogan: "Fale inglês com confiança em 90 dias",
+      slogan: "Fale inglês com confiança. Viva novas possibilidades.",
     },
     {
       "@type": "Course",
-      name: "Talkwise English — Programa de 90 dias",
+      name: "Talkwise English: programa de 90 dias",
       description:
-        "Programa de 90 dias focado em conversação, com diagnóstico de nível, aulas ao vivo, prática guiada e certificação alinhada ao CEFR.",
+        "Programa de 90 dias com diagnóstico de nível, aulas de conversação ao vivo em grupos pequenos, prática guiada entre as aulas e avaliação final de conversação.",
       inLanguage: "pt-BR",
-      provider: {
-        "@id": `${SITE_URL}#organizacao`,
-      },
+      provider: { "@id": `${SITE_URL}#organizacao` },
       hasCourseInstance: {
         "@type": "CourseInstance",
         courseMode: "online",
@@ -97,11 +90,8 @@ const structuredData = {
       "@type": "FAQPage",
       mainEntity: FAQS.map((faq) => ({
         "@type": "Question",
-        name: faq.question,
-        acceptedAnswer: {
-          "@type": "Answer",
-          text: faq.answer,
-        },
+        name: faq.q,
+        acceptedAnswer: { "@type": "Answer", text: faq.a },
       })),
     },
   ],
@@ -111,12 +101,12 @@ export default function RootLayout({
   children,
 }: Readonly<{ children: React.ReactNode }>) {
   return (
-    <html lang="pt-BR" className={`${sora.variable} ${inter.variable}`}>
+    <html lang="pt-BR" className={`${fraunces.variable} ${inter.variable}`}>
       <body>
         {children}
         <script
           type="application/ld+json"
-          dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }}
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(dadosEstruturados) }}
         />
       </body>
     </html>
