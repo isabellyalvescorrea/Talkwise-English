@@ -80,7 +80,7 @@
 }
 
 .item:nth-child(2n) .avatar {
-  background: linear-gradient(150deg, #d4562f, #b43c1c);
+  background: linear-gradient(150deg, #c2451f, #963014);
 }
 
 .name {

@@ -45,7 +45,9 @@ npm run typecheck  # tsc --noEmit
 
 1. Importe o repositório em <https://vercel.com/new>.
 2. Não altere nada: a Vercel detecta Next.js e usa `next build` automaticamente.
-3. (Opcional) Configure as variáveis de ambiente descritas abaixo.
+3. Defina `NEXT_PUBLIC_SITE_URL` com o domínio final do projeto — é a única
+   variável que vale a pena configurar já no primeiro deploy, porque alimenta os
+   metadados, o `robots.txt` e o `sitemap.xml`.
 
 Nenhum `vercel.json` é necessário.
 
@@ -58,7 +60,7 @@ opcionais — sem nenhuma delas o site funciona normalmente.
 
 | Variável                   | Para que serve                                                                 |
 | -------------------------- | ------------------------------------------------------------------------------ |
-| `NEXT_PUBLIC_SITE_URL`     | URL canônica usada em metadados, Open Graph e JSON-LD. Padrão: `https://talkwise-english.vercel.app`. |
+| `NEXT_PUBLIC_SITE_URL`     | URL canônica usada em metadados, Open Graph, JSON-LD, `robots.txt` e `sitemap.xml`. Padrão: `https://talkwise-english.vercel.app`. |
 | `NEXT_PUBLIC_FORM_ENDPOINT`| Endpoint de um serviço de formulários (ex.: Formspree). Quando definido, o formulário faz `POST` real. |
 
 ### Formulário de captura
@@ -83,10 +85,13 @@ descartado silenciosamente.
 
 ```
 app/
-  layout.tsx      metadados, fontes, JSON-LD (Organization, Course, FAQPage)
-  page.tsx        composição das seções da landing page
-  globals.css     tokens de design, reset, tipografia e primitivas (.btn, .container…)
-  icon.svg        favicon
+  layout.tsx           metadados, fontes, JSON-LD (Organization, Course, FAQPage)
+  page.tsx             composição das seções da landing page
+  globals.css          tokens de design, reset, tipografia e primitivas (.btn, .container…)
+  icon.svg             favicon
+  opengraph-image.tsx  imagem de compartilhamento 1200×630, gerada no build
+  robots.ts            robots.txt
+  sitemap.ts           sitemap.xml
 components/
   Header.tsx      menu fixo, âncoras, seção ativa e menu hambúrguer
   Hero.tsx        título, CTA principal e prova social

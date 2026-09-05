@@ -76,6 +76,15 @@
   color-scheme: light;
 }
 
+/* Em telas muito largas o container abre um pouco para que as seções não
+   fiquem espremidas no meio da tela. As medidas de leitura seguem limitadas
+   nos próprios componentes. */
+@media (min-width: 100em) {
+  :root {
+    --container: 1320px;
+  }
+}
+
 /* =========================================================================
    Reset
    ========================================================================= */
