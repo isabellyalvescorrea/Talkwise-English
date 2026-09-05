@@ -20,13 +20,12 @@
 }
 
 /* O protótipo usa rgba(27,39,51,0.75), que cai para 3,6:1 sobre o camel.
-   A tinta sólida mantém o mesmo tom e fecha o AA. */
+   A tinta sólida fecha o AA sem mexer em métrica: espaçamento e entrelinha
+   seguem os do protótipo, para não deslocar as seções seguintes. */
 .lede {
   color: var(--ink);
   font-size: 0.95rem;
   max-width: 40ch;
-  margin-top: 10px;
-  line-height: 1.55;
 }
 
 .form {

@@ -6,7 +6,7 @@ const ANO = new Date().getFullYear();
 export default function Footer() {
   return (
     <footer className={styles.footer}>
-      <div className="shell">
+      <div className={styles.footShell}>
         <div className={styles.brand}>
           <BrandMark />
           Talkwise

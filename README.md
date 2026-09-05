@@ -123,27 +123,44 @@ Para trocar textos, depoimentos, perguntas ou professores, edite apenas
 Fraunces nos títulos, Inter no corpo. Nenhum tom pastel ou salmão.
 Nenhum travessão em nenhum texto da página.
 
-A Fraunces é variável e tem eixo de tamanho óptico (`opsz`, de 9 a 144). Com o
-valor automático, o navegador troca para o corte de display em títulos grandes,
-de traço fino e muito contraste. O projeto fixa o corte de texto com
-`font-optical-sizing: none`, o que mantém os títulos encorpados em qualquer
-tamanho. Todos os títulos serifados usam peso 700: o do hero, os de seção, os
-das vantagens e das etapas, além dos numerais de display (faixa de dados,
-etapas do método e rota do cartão de embarque). O logotipo do topo e do rodapé
-permanece no peso 600, por ser logotipo e não título.
+A Fraunces é variável e tem eixo de tamanho óptico (`opsz`, de 9 a 144), que
+muda a forma das letras conforme o tamanho, não só o peso. Esse eixo fica
+**variável** (`font-optical-sizing: auto`, o padrão do navegador), exatamente
+como o protótipo o requisita ao Google Fonts em
+`family=Fraunces:opsz,wght@9..144,400;...`.
 
-Os eixos `SOFT` e `WONK` da Fraunces, que produzem as formas mais orgânicas,
-seguem desligados, exatamente como o protótipo os requisita ao Google Fonts.
+A fonte é carregada por `next/font/google` com `axes: ["opsz"]`, que
+auto-hospeda os arquivos e entrega a mesma instância variável da URL do
+protótipo. Verificado por medição: a largura da palavra "confiança" por em, no
+peso 600, é 4.74902 a 16px, 4.61953 a 40px e 3.86458 a 96px, tanto no site
+quanto no protótipo. As três medidas serem diferentes entre si prova que o eixo
+está variável; serem iguais às do protótipo prova que é a mesma instância.
+
+Todos os títulos usam o peso 600 declarado no protótipo. A única exceção é
+`.emph-grey` ("inglês" e "possibilidades" no título do hero), que o protótipo
+declara em 700.
 
 ---
 
 ## Fidelidade ao protótipo
 
-Cada seção foi medida no navegador contra o protótipo renderizado a 1280px,
-comparando topo e altura de `header`, faixa de estatísticas, `#vantagens`,
-`#metodo`, `#sobre`, `#reservar`, `#alunos`, `#duvidas` e `footer`. Todas
-coincidem, exceto o bloco de captura, 19px mais alto por causa da correção de
-entrelinha descrita abaixo.
+Cada seção é comparada pixel a pixel com o protótipo renderizado a 1280px e a
+375px, com a faixa fixa oculta para não interferir no recorte.
+
+| Seção         | 1280px            | 375px             | Causa da diferença |
+| ------------- | ----------------- | ----------------- | ------------------ |
+| hero          | 0,338%            | 1,097%            | código de barras desenhado e canto do botão |
+| estatísticas  | **0%**            | **0%**            | idêntico |
+| vantagens     | 0,588%            | 1,419%            | cor dos títulos |
+| método        | 0,280%            | 1,337%            | cor dos títulos |
+| sobre         | **0%**            | **0%**            | idêntico |
+| reservar      | 3,638%            | 5,366%            | cor do parágrafo e fonte dos campos |
+| alunos        | 0,011%            | 0,023%            | cor do selo dos cartões-postais |
+| dúvidas       | **0%**            | **0%**            | idêntico |
+| rodapé        | 0,022%            | **0%**            | antialiasing de um glifo |
+
+Todas as alturas de seção coincidem com as do protótipo nas duas larguras, e a
+altura total da página a 1280px é a mesma, 4497px.
 
 Desvios deliberados, todos por acessibilidade ou por defeito de renderização
 do protótipo:
@@ -153,13 +170,16 @@ do protótipo:
 2. Degradê do botão primário com a última parada deslocada para 128%: medido
    pixel a pixel sob o rótulo, o protótipo entregava 3,84:1 e esta versão
    entrega 4,58:1.
-3. Parágrafo do bloco de captura em tinta sólida em vez de `rgba(...,0.75)`,
-   e com a mesma entrelinha 1,55 dos demais parágrafos do projeto: 4,00:1
-   para 6,34:1.
-4. Títulos de "Vantagens" e "Método" em `--ink` em vez do preto padrão do
+3. Parágrafo do bloco de captura em tinta sólida em vez de `rgba(...,0.75)`:
+   de 4,00:1 para 6,34:1. Espaçamento e entrelinha seguem os do protótipo,
+   para não deslocar as seções seguintes.
+4. Campos do formulário herdam a Inter (`input { font-family: inherit }`). No
+   protótipo eles ficam na fonte padrão do navegador, o que os deixa 2px mais
+   baixos e com um tipo diferente do resto da página.
+5. Títulos de "Vantagens" e "Método" em `--ink` em vez do preto padrão do
    navegador, alinhando com o resto do sistema de cores.
-5. Selo dos cartões-postais em `--c3-ink`, por ser texto de 9,6px.
-6. O código de barras do cartão de embarque é desenhado (no protótipo a `div`
+6. Selo dos cartões-postais em `--c3-ink`, por ser texto de 9,6px.
+7. O código de barras do cartão de embarque é desenhado (no protótipo a `div`
    estava vazia).
 
 ---

@@ -70,11 +70,10 @@ h2,
 h3,
 .serif {
   font-family: var(--font-serif);
-  /* A Fraunces tem eixo de tamanho óptico. Com o valor automático, o
-     navegador troca para o corte de display em títulos grandes, de traço
-     fino e muito contraste. Fixar o corte de texto mantém os títulos
-     encorpados em qualquer tamanho. */
-  font-optical-sizing: none;
+  /* O eixo de tamanho óptico (opsz, de 9 a 144) fica variável, como no
+     protótipo: o navegador escolhe o corte conforme o tamanho do texto.
+     Não fixar esse eixo é o que preserva a personalidade da Fraunces. */
+  font-optical-sizing: auto;
 }
 
 a {
@@ -144,7 +143,7 @@ ol {
 
 .section-head h2 {
   font-size: 1.9rem;
-  font-weight: 700;
+  font-weight: 600;
   line-height: 1.2;
 }
 

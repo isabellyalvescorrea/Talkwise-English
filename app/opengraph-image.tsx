@@ -33,12 +33,12 @@ async function carregarFonte(familia: string, peso: number): Promise<ArrayBuffer
 
 export default async function OpengraphImage() {
   const [serif, sans] = await Promise.all([
-    carregarFonte("Fraunces", 700),
+    carregarFonte("Fraunces", 600),
     carregarFonte("Inter", 400),
   ]);
 
   const fonts = [
-    serif && { name: "Fraunces", data: serif, weight: 700 as const, style: "normal" as const },
+    serif && { name: "Fraunces", data: serif, weight: 600 as const, style: "normal" as const },
     sans && { name: "Inter", data: sans, weight: 400 as const, style: "normal" as const },
   ].filter((fonte): fonte is NonNullable<typeof fonte> => Boolean(fonte));
 
@@ -70,7 +70,7 @@ export default async function OpengraphImage() {
               background: "linear-gradient(135deg, #D9C4A3, #B89768)",
             }}
           />
-          <div style={{ display: "flex", fontSize: 34, fontFamily: serifFamily, fontWeight: 700 }}>
+          <div style={{ display: "flex", fontSize: 34, fontFamily: serifFamily, fontWeight: 600 }}>
             Talkwise
           </div>
         </div>
@@ -85,7 +85,7 @@ export default async function OpengraphImage() {
               letterSpacing: -1,
               maxWidth: 940,
               fontFamily: serifFamily,
-              fontWeight: 700,
+              fontWeight: 600,
             }}
           >
             <span>Fale&nbsp;</span>

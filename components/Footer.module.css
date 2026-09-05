@@ -6,6 +6,15 @@
   border-top: 1px solid var(--hairline-light);
 }
 
+/* Como a faixa de navegação, o rodapé do protótipo não aumenta o recuo
+   lateral no desktop: fica em 24px em qualquer largura. */
+.footShell {
+  width: 100%;
+  max-width: var(--shell);
+  margin-inline: auto;
+  padding-inline: 24px;
+}
+
 .brand {
   display: flex;
   align-items: center;
