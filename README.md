@@ -123,18 +123,38 @@ Para trocar textos, depoimentos, perguntas ou professores, edite apenas
 Fraunces nos títulos, Inter no corpo. Nenhum tom pastel ou salmão.
 Nenhum travessão em nenhum texto da página.
 
-A Fraunces é variável e tem eixo de tamanho óptico (`opsz`, de 9 a 144), que
-muda a forma das letras conforme o tamanho, não só o peso. Esse eixo fica
-**variável** (`font-optical-sizing: auto`, o padrão do navegador), exatamente
-como o protótipo o requisita ao Google Fonts em
-`family=Fraunces:opsz,wght@9..144,400;...`.
+As fontes são carregadas pela mesma folha de estilo do Google Fonts que o
+protótipo usa, com a URL copiada caractere a caractere e inserida no `<head>`
+do layout raiz:
 
-A fonte é carregada por `next/font/google` com `axes: ["opsz"]`, que
-auto-hospeda os arquivos e entrega a mesma instância variável da URL do
-protótipo. Verificado por medição: a largura da palavra "confiança" por em, no
+```html
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+```
+
+O projeto **não** usa `next/font`. A escolha é deliberada: o requisito é que o
+navegador carregue exatamente essa folha, sem reconstrução equivalente. O custo
+é uma requisição a terceiros e o salto de fonte do `display=swap`, que o
+auto-hospedagem do `next/font` evitaria.
+
+O eixo de tamanho óptico (`opsz`, de 9 a 144) fica variável: nem o protótipo
+nem este projeto declaram `font-optical-sizing`, e o padrão do navegador é
+`auto`. Verificado por medição: a largura da palavra "confiança" por em, no
 peso 600, é 4.74902 a 16px, 4.61953 a 40px e 3.86458 a 96px, tanto no site
 quanto no protótipo. As três medidas serem diferentes entre si prova que o eixo
 está variável; serem iguais às do protótipo prova que é a mesma instância.
+
+As duas únicas regras de família são as do protótipo:
+
+```css
+body { font-family: 'Inter', sans-serif; }
+h1, h2, h3, .serif { font-family: 'Fraunces', serif; }
+```
+
+Nenhuma outra regra do projeto sobrescreve `font-family` em h1, h2 ou h3. Os
+demais elementos serifados (marca, numerais e a rota do cartão de embarque)
+usam o token `--font-serif`, que resolve para `'Fraunces', serif`, exatamente
+como o protótipo os declara.
 
 Todos os títulos usam o peso 600 declarado no protótipo. A única exceção é
 `.emph-grey` ("inglês" e "possibilidades" no título do hero), que o protótipo

@@ -27,9 +27,13 @@
   --hairline-dark: rgba(27, 39, 51, 0.12);
   --hairline-light: rgba(255, 255, 255, 0.1);
 
-  /* --- Tipografia --- */
-  --font-serif: var(--font-fraunces), Georgia, "Times New Roman", serif;
-  --font-sans: var(--font-inter), system-ui, -apple-system, "Segoe UI", sans-serif;
+  /* --- Tipografia ---
+     As famílias vêm da folha do Google Fonts carregada no <head>, com a URL
+     copiada do protótipo. Os tokens repetem literalmente o que o protótipo
+     declara, para os elementos serifados fora de h1/h2/h3 (marca, numerais
+     e a rota do cartão de embarque). */
+  --font-serif: 'Fraunces', serif;
+  --font-sans: 'Inter', sans-serif;
 
   /* --- Layout --- */
   /* O protótipo foi aprovado renderizado a 1280px. Limitar o conteúdo a essa
@@ -57,7 +61,7 @@ html {
 }
 
 body {
-  font-family: var(--font-sans);
+  font-family: 'Inter', sans-serif;
   background: var(--navy);
   color: var(--ink);
   -webkit-font-smoothing: antialiased;
@@ -65,15 +69,14 @@ body {
   overflow-x: hidden;
 }
 
+/* O eixo de tamanho óptico (opsz, de 9 a 144) não é declarado, exatamente
+   como no protótipo: o padrão do navegador já é "auto", que deixa o corte
+   variar com o tamanho do texto. */
 h1,
 h2,
 h3,
 .serif {
-  font-family: var(--font-serif);
-  /* O eixo de tamanho óptico (opsz, de 9 a 144) fica variável, como no
-     protótipo: o navegador escolhe o corte conforme o tamanho do texto.
-     Não fixar esse eixo é o que preserva a personalidade da Fraunces. */
-  font-optical-sizing: auto;
+  font-family: 'Fraunces', serif;
 }
 
 a {
