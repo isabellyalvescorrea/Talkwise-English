@@ -1,6 +1,7 @@
 import type { Metadata, Viewport } from "next";
 import { Inter, Sora } from "next/font/google";
 import { FAQS } from "@/lib/content";
+import { SITE_URL } from "@/lib/site";
 import "./globals.css";
 
 const sora = Sora({
@@ -15,14 +16,12 @@ const inter = Inter({
   variable: "--font-inter",
 });
 
-const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? "https://talkwise-english.vercel.app";
-
 const title = "Talkwise English — Fale inglês com confiança em 90 dias";
 const description =
   "Aulas ao vivo focadas em conversação real, com professores nativos e horários flexíveis. Baixe grátis as 100 frases essenciais para a sua primeira conversa em inglês.";
 
 export const metadata: Metadata = {
-  metadataBase: new URL(siteUrl),
+  metadataBase: new URL(SITE_URL),
   title: {
     default: title,
     template: "%s | Talkwise English",
@@ -44,7 +43,7 @@ export const metadata: Metadata = {
   openGraph: {
     type: "website",
     locale: "pt_BR",
-    url: siteUrl,
+    url: SITE_URL,
     siteName: "Talkwise English",
     title,
     description,
@@ -72,9 +71,9 @@ const structuredData = {
   "@graph": [
     {
       "@type": "EducationalOrganization",
-      "@id": `${siteUrl}#organizacao`,
+      "@id": `${SITE_URL}#organizacao`,
       name: "Talkwise English",
-      url: siteUrl,
+      url: SITE_URL,
       description,
       areaServed: "BR",
       slogan: "Fale inglês com confiança em 90 dias",
@@ -86,7 +85,7 @@ const structuredData = {
         "Programa de 90 dias focado em conversação, com diagnóstico de nível, aulas ao vivo, prática guiada e certificação alinhada ao CEFR.",
       inLanguage: "pt-BR",
       provider: {
-        "@id": `${siteUrl}#organizacao`,
+        "@id": `${SITE_URL}#organizacao`,
       },
       hasCourseInstance: {
         "@type": "CourseInstance",

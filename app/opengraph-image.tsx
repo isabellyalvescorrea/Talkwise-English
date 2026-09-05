@@ -7,20 +7,26 @@ export const contentType = "image/png";
 /**
  * Busca o arquivo TrueType da Sora no Google Fonts durante o build.
  * O renderizador da imagem não lê woff2, por isso a requisição usa um
- * User-Agent antigo — que faz o Google devolver TTF. Se algo falhar,
- * a imagem é gerada com a fonte padrão em vez de quebrar o build.
+ * User-Agent antigo — que faz o Google devolver TTF. Se algo falhar ou
+ * demorar demais, a imagem é gerada com a fonte padrão: o build nunca
+ * depende dessa requisição para terminar.
  */
 async function loadSora(weight: 400 | 700): Promise<ArrayBuffer | null> {
   try {
     const css = await fetch(
       `https://fonts.googleapis.com/css2?family=Sora:wght@${weight}`,
-      { headers: { "User-Agent": "Mozilla/5.0 (Windows NT 6.1; WOW64)" } },
+      {
+        headers: { "User-Agent": "Mozilla/5.0 (Windows NT 6.1; WOW64)" },
+        signal: AbortSignal.timeout(8000),
+      },
     ).then((response) => response.text());
 
     const url = css.match(/src:\s*url\((https:[^)]+)\)/)?.[1];
     if (!url) return null;
 
-    return await fetch(url).then((response) => response.arrayBuffer());
+    return await fetch(url, { signal: AbortSignal.timeout(8000) }).then((response) =>
+      response.arrayBuffer(),
+    );
   } catch {
     return null;
   }

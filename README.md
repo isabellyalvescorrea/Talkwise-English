@@ -45,9 +45,9 @@ npm run typecheck  # tsc --noEmit
 
 1. Importe o repositório em <https://vercel.com/new>.
 2. Não altere nada: a Vercel detecta Next.js e usa `next build` automaticamente.
-3. Defina `NEXT_PUBLIC_SITE_URL` com o domínio final do projeto — é a única
-   variável que vale a pena configurar já no primeiro deploy, porque alimenta os
-   metadados, o `robots.txt` e o `sitemap.xml`.
+3. (Opcional) Defina `NEXT_PUBLIC_SITE_URL` com o domínio final do projeto. Ela
+   alimenta os metadados, o `robots.txt` e o `sitemap.xml`. Deixar em branco é
+   seguro: `lib/site.ts` cai no domínio de produção que a própria Vercel injeta.
 
 Nenhum `vercel.json` é necessário.
 
@@ -60,7 +60,7 @@ opcionais — sem nenhuma delas o site funciona normalmente.
 
 | Variável                   | Para que serve                                                                 |
 | -------------------------- | ------------------------------------------------------------------------------ |
-| `NEXT_PUBLIC_SITE_URL`     | URL canônica usada em metadados, Open Graph, JSON-LD, `robots.txt` e `sitemap.xml`. Padrão: `https://talkwise-english.vercel.app`. |
+| `NEXT_PUBLIC_SITE_URL`     | URL canônica usada em metadados, Open Graph, JSON-LD, `robots.txt` e `sitemap.xml`. Aceita com ou sem `https://`. Se estiver vazia ou inválida, o site cai no domínio de produção da Vercel e, na ausência dele, em `https://talkwise-english.vercel.app` — o build nunca quebra por causa dessa variável. |
 | `NEXT_PUBLIC_FORM_ENDPOINT`| Endpoint de um serviço de formulários (ex.: Formspree). Quando definido, o formulário faz `POST` real. |
 
 ### Formulário de captura
@@ -107,6 +107,7 @@ components/
   Reveal.tsx      revelação em scroll (progressive enhancement)
 lib/
   content.ts      todo o conteúdo editorial em um único arquivo
+  site.ts         resolução tolerante a falhas da URL canônica do site
 ```
 
 Para trocar textos, depoimentos, perguntas do FAQ ou professores, edite apenas
