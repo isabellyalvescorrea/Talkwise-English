@@ -127,8 +127,13 @@ A Fraunces é variável e tem eixo de tamanho óptico (`opsz`, de 9 a 144). Com 
 valor automático, o navegador troca para o corte de display em títulos grandes,
 de traço fino e muito contraste. O projeto fixa o corte de texto com
 `font-optical-sizing: none`, o que mantém os títulos encorpados em qualquer
-tamanho. O título principal usa peso 700; os títulos de seção seguem no peso
-600 declarado no protótipo.
+tamanho. Todos os títulos serifados usam peso 700: o do hero, os de seção, os
+das vantagens e das etapas, além dos numerais de display (faixa de dados,
+etapas do método e rota do cartão de embarque). O logotipo do topo e do rodapé
+permanece no peso 600, por ser logotipo e não título.
+
+Os eixos `SOFT` e `WONK` da Fraunces, que produzem as formas mais orgânicas,
+seguem desligados, exatamente como o protótipo os requisita ao Google Fonts.
 
 ---
 

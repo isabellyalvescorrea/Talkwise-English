@@ -18,14 +18,14 @@
   font-family: var(--font-serif);
   font-size: 1.6rem;
   color: var(--c3);
-  font-weight: 600;
+  font-weight: 700;
   flex-shrink: 0;
   width: 2ch;
 }
 
 .step h3 {
   font-size: 1.1rem;
-  font-weight: 600;
+  font-weight: 700;
   margin-bottom: 6px;
   color: var(--ink);
 }
