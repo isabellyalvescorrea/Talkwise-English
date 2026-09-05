@@ -90,7 +90,10 @@
   margin-inline: auto;
 }
 
+/* Decoração exclusiva do layout de duas colunas: no mobile ela cruzaria
+   os cartões e a lista de números sem acrescentar nada. */
 .globe {
+  display: none;
   position: absolute;
   z-index: 0;
   inset-block-start: -18%;
@@ -208,6 +211,10 @@
 }
 
 @media (min-width: 64em) {
+  .globe {
+    display: block;
+  }
+
   .grid {
     grid-template-columns: minmax(0, 1.05fr) minmax(0, 0.95fr);
   }
