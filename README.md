@@ -16,7 +16,7 @@ gerada estaticamente e publica na Vercel com o build padrão.
 | Framework   | Next.js 16 (App Router) + React 19                   |
 | Linguagem   | TypeScript em modo estrito                           |
 | Estilos     | CSS Modules + tokens em custom properties            |
-| Tipografia  | `next/font` com Fraunces (títulos) e Inter (corpo)   |
+| Tipografia  | Playfair Display (títulos) e Inter (corpo), via Google Fonts |
 | Responsivo  | Container queries, ponto de virada único em 780px    |
 | Hospedagem  | Vercel, build padrão `next build`                    |
 
@@ -120,7 +120,7 @@ Para trocar textos, depoimentos, perguntas ou professores, edite apenas
 | `--emph`       | `#E3BE8C` | a palavra "confiança" no título                        |
 | `--emph-grey`  | `#AAB4C0` | "inglês" e "possibilidades" no título                  |
 
-Fraunces nos títulos, Inter no corpo. Nenhum tom pastel ou salmão.
+Playfair Display nos títulos, Inter no corpo. Nenhum tom pastel ou salmão.
 Nenhum travessão em nenhum texto da página.
 
 As fontes são carregadas pela mesma folha de estilo do Google Fonts que o
@@ -129,39 +129,38 @@ do layout raiz:
 
 ```html
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
 ```
 
 O projeto **não** usa `next/font`. A escolha é deliberada: o requisito é que o
 navegador carregue exatamente essa folha, sem reconstrução equivalente. O custo
-é uma requisição a terceiros e o salto de fonte do `display=swap`, que o
+é uma requisição a terceiros e o salto de fonte do `display=swap`, que a
 auto-hospedagem do `next/font` evitaria.
 
-O eixo de tamanho óptico (`opsz`, de 9 a 144) fica variável: nem o protótipo
-nem este projeto declaram `font-optical-sizing`, e o padrão do navegador é
-`auto`. Verificado por medição: a largura da palavra "confiança" por em, no
-peso 600, é 4.74902 a 16px, 4.61953 a 40px e 3.86458 a 96px, tanto no site
-quanto no protótipo. As três medidas serem diferentes entre si prova que o eixo
-está variável; serem iguais às do protótipo prova que é a mesma instância.
+A Playfair Display tem apenas o eixo de peso, sem eixo de tamanho óptico. É
+essa a razão da escolha: a forma da letra não muda com o tamanho do texto.
+Verificado por medição: a largura da palavra "confiança" por em, no peso 600,
+é 4.43066 a 16px, 4.43008 a 40px e 4.43001 a 96px. Praticamente constante, e
+igual à do protótipo nos três tamanhos.
 
 As duas únicas regras de família são as do protótipo:
 
 ```css
 body { font-family: 'Inter', sans-serif; }
-h1, h2, h3, .serif { font-family: 'Fraunces', serif; }
+h1, h2, h3, .serif { font-family: 'Playfair Display', serif; }
 ```
 
-Nenhuma outra regra do projeto sobrescreve `font-family` em h1, h2 ou h3.
+Nenhuma outra regra do projeto sobrescreve `font-family` em h1, h2 ou h3. Os
+demais elementos serifados (marca, numerais e a rota do cartão de embarque)
+usam o token `--font-serif`, que resolve para `'Playfair Display', serif`,
+exatamente como o protótipo os declara.
 
 O `html` não declara `-webkit-text-size-adjust`, também como no protótipo. Essa
 propriedade trava o ajuste automático de tamanho de texto do navegador no
 celular. Declará-la fazia o título render menor no aparelho do que no
 protótipo, que deixa o navegador inflar o texto livremente. A contrapartida é
 que o tamanho do título no mobile passa a depender do navegador e das
-preferências de acessibilidade do aparelho. Os
-demais elementos serifados (marca, numerais e a rota do cartão de embarque)
-usam o token `--font-serif`, que resolve para `'Fraunces', serif`, exatamente
-como o protótipo os declara.
+preferências de acessibilidade do aparelho.
 
 Todos os títulos usam o peso 600 declarado no protótipo. A única exceção é
 `.emph-grey` ("inglês" e "possibilidades" no título do hero), que o protótipo

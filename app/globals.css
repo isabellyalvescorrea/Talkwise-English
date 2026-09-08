@@ -32,7 +32,7 @@
      copiada do protótipo. Os tokens repetem literalmente o que o protótipo
      declara, para os elementos serifados fora de h1/h2/h3 (marca, numerais
      e a rota do cartão de embarque). */
-  --font-serif: 'Fraunces', serif;
+  --font-serif: 'Playfair Display', serif;
   --font-sans: 'Inter', sans-serif;
 
   /* --- Layout --- */
@@ -72,14 +72,11 @@ body {
   overflow-x: hidden;
 }
 
-/* O eixo de tamanho óptico (opsz, de 9 a 144) não é declarado, exatamente
-   como no protótipo: o padrão do navegador já é "auto", que deixa o corte
-   variar com o tamanho do texto. */
 h1,
 h2,
 h3,
 .serif {
-  font-family: 'Fraunces', serif;
+  font-family: 'Playfair Display', serif;
 }
 
 a {

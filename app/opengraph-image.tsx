@@ -5,7 +5,7 @@ export const size = { width: 1200, height: 630 };
 export const contentType = "image/png";
 
 /**
- * Busca o arquivo TrueType da Fraunces no Google Fonts durante o build.
+ * Busca o arquivo TrueType da Playfair Display no Google Fonts no build.
  * O renderizador não lê woff2, por isso a requisição usa um User-Agent antigo,
  * que faz o Google devolver TTF. Se falhar ou demorar, a imagem sai com a
  * fonte padrão: o build nunca depende dessa requisição.
@@ -33,16 +33,16 @@ async function carregarFonte(familia: string, peso: number): Promise<ArrayBuffer
 
 export default async function OpengraphImage() {
   const [serif, sans] = await Promise.all([
-    carregarFonte("Fraunces", 600),
+    carregarFonte("Playfair+Display", 600),
     carregarFonte("Inter", 400),
   ]);
 
   const fonts = [
-    serif && { name: "Fraunces", data: serif, weight: 600 as const, style: "normal" as const },
+    serif && { name: "Playfair Display", data: serif, weight: 600 as const, style: "normal" as const },
     sans && { name: "Inter", data: sans, weight: 400 as const, style: "normal" as const },
   ].filter((fonte): fonte is NonNullable<typeof fonte> => Boolean(fonte));
 
-  const serifFamily = serif ? "Fraunces" : undefined;
+  const serifFamily = serif ? "Playfair Display" : undefined;
   const sansFamily = sans ? "Inter" : undefined;
 
   return new ImageResponse(

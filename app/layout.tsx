@@ -7,7 +7,7 @@ import "./globals.css";
    Não usar next/font aqui: o pedido é que o navegador carregue exatamente
    esta folha de estilo, sem reconstrução equivalente. */
 const GOOGLE_FONTS_HREF =
-  "https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=Inter:wght@400;500;600&display=swap";
+  "https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&family=Inter:wght@400;500;600&display=swap";
 
 const title = "Talkwise English: fale inglês com confiança";
 const description =
