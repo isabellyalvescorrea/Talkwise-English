@@ -55,9 +55,12 @@
   padding: 0;
 }
 
+/* Sem -webkit-text-size-adjust, exatamente como no protótipo. Essa
+   propriedade trava o ajuste automático de tamanho de texto do navegador
+   no celular; declará-la fazia o título render menor aqui do que no
+   protótipo, que deixa o navegador inflar o texto livremente. */
 html {
   scroll-behavior: smooth;
-  -webkit-text-size-adjust: 100%;
 }
 
 body {

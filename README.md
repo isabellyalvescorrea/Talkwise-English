@@ -151,7 +151,14 @@ body { font-family: 'Inter', sans-serif; }
 h1, h2, h3, .serif { font-family: 'Fraunces', serif; }
 ```
 
-Nenhuma outra regra do projeto sobrescreve `font-family` em h1, h2 ou h3. Os
+Nenhuma outra regra do projeto sobrescreve `font-family` em h1, h2 ou h3.
+
+O `html` não declara `-webkit-text-size-adjust`, também como no protótipo. Essa
+propriedade trava o ajuste automático de tamanho de texto do navegador no
+celular. Declará-la fazia o título render menor no aparelho do que no
+protótipo, que deixa o navegador inflar o texto livremente. A contrapartida é
+que o tamanho do título no mobile passa a depender do navegador e das
+preferências de acessibilidade do aparelho. Os
 demais elementos serifados (marca, numerais e a rota do cartão de embarque)
 usam o token `--font-serif`, que resolve para `'Fraunces', serif`, exatamente
 como o protótipo os declara.
