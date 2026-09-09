@@ -24,6 +24,7 @@
 }
 
 .benefit h3 {
+  font-family: var(--font-sans);
   font-size: 1.05rem;
   font-weight: 600;
   margin-bottom: 4px;

@@ -120,7 +120,8 @@ Para trocar textos, depoimentos, perguntas ou professores, edite apenas
 | `--emph`       | `#E3BE8C` | a palavra "confiança" no título                        |
 | `--emph-grey`  | `#AAB4C0` | "inglês" e "possibilidades" no título                  |
 
-Playfair Display nos títulos, Inter no corpo. Nenhum tom pastel ou salmão.
+Playfair Display nos títulos de seção e nos numerais, Inter no corpo e nos
+títulos dos cards. Nenhum tom pastel ou salmão.
 Nenhum travessão em nenhum texto da página.
 
 As fontes são carregadas pela mesma folha de estilo do Google Fonts que o
@@ -143,17 +144,31 @@ Verificado por medição: a largura da palavra "confiança" por em, no peso 600,
 é 4.43066 a 16px, 4.43008 a 40px e 4.43001 a 96px. Praticamente constante, e
 igual à do protótipo nos três tamanhos.
 
-As duas únicas regras de família são as do protótipo:
+As duas regras de base de família são as do protótipo:
 
 ```css
 body { font-family: 'Inter', sans-serif; }
 h1, h2, h3, .serif { font-family: 'Playfair Display', serif; }
 ```
 
-Nenhuma outra regra do projeto sobrescreve `font-family` em h1, h2 ou h3. Os
-demais elementos serifados (marca, numerais e a rota do cartão de embarque)
-usam o token `--font-serif`, que resolve para `'Playfair Display', serif`,
-exatamente como o protótipo os declara.
+Duas regras do projeto sobrescrevem essa família, nos mesmos dois seletores em
+que o protótipo a sobrescreve, e com o mesmo valor:
+
+```css
+.step h3    { font-family: 'Inter', sans-serif; font-size: 1.1rem;  font-weight: 600; }
+.benefit h3 { font-family: 'Inter', sans-serif; font-size: 1.05rem; font-weight: 600; }
+```
+
+São os títulos dos quatro cards do Método e dos quatro cards de Vantagens. Em
+corpo de texto curto e repetido, a Inter em 600 lê melhor que a serifada e
+separa com mais clareza o título da descrição logo abaixo. O H1 do hero, todos
+os H2 de seção e todos os numerais continuam em Playfair Display. No projeto
+esses dois seletores usam o token `var(--font-sans)`, que resolve para
+`'Inter', sans-serif`, o mesmo valor que o protótipo escreve literalmente.
+
+Os demais elementos serifados (marca, numerais das estatísticas e do Método, e
+a rota do cartão de embarque) usam o token `--font-serif`, que resolve para
+`'Playfair Display', serif`, exatamente como o protótipo os declara.
 
 O `html` não declara `-webkit-text-size-adjust`, também como no protótipo. Essa
 propriedade trava o ajuste automático de tamanho de texto do navegador no
