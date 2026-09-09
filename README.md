@@ -87,7 +87,7 @@ app/
 components/
   Header.tsx           faixa fixa, âncoras e menu hambúrguer
   Hero.tsx             título, CTAs e selo de aula grátis
-  BoardingPass.tsx     cartão de embarque (perfuração e código de barras)
+  BoardingPass.tsx     cartão de embarque animado, com gatilho por scroll
   Stats.tsx            faixa de dados operacionais
   Benefits.tsx         vantagens de falar inglês
   Method.tsx           método em quatro etapas
@@ -215,6 +215,48 @@ funcionaria, e a cor conversa com o resto da paleta do site.
 
 ---
 
+## Cartão de embarque
+
+O cartão do hero é uma animação em laço de 8s, copiada do protótipo com os
+valores intactos: cores, tempos e porcentagens de keyframe estão como no
+arquivo original, sem arredondamento. São oito animações rodando juntas:
+
+| Animação        | O que faz |
+| --------------- | --------- |
+| `ticketCycle`   | dobra e desdobra o cartão, com a batida do carimbo em 44% a 46% |
+| `creaseFade`    | sombra do vinco, que some conforme o cartão abre |
+| `shineSweep`    | brilho que atravessa o cartão entre 27% e 33% |
+| `revealLabel`   | rótulo "Cartão de embarque", em 24% |
+| `revealRoute`   | rota De/Para, em 27% |
+| `revealDetails` | grade de detalhes, em 30% |
+| `revealBottom`  | código de barras, referência e botão, em 33% |
+| `stampCycle`    | carimbo "Aula confirmada", que bate em 38% e assenta em 47% |
+
+Cada elemento tem seu próprio keyframe com o tempo absoluto do ciclo, em vez
+de `animation-delay`. É isso que mantém tudo sincronizado em laço infinito: com
+`animation-delay` as animações se dessincronizariam depois da primeira volta.
+
+O disparo é o mesmo `IntersectionObserver` do protótipo, com `threshold: 0.4`,
+em `useEffect`. Ele solta a animação quando o cartão entra na tela e para de
+observar.
+
+A única diferença de estrutura é a queda sem JavaScript. No protótipo as
+animações nascem pausadas por CSS, o que deixaria o cartão dobrado para sempre
+em quem estiver sem JavaScript, escondendo o principal elemento gráfico do
+hero. Aqui a classe que pausa entra só depois que o componente monta: no HTML
+servido as animações correm soltas, e quem tem JavaScript vê exatamente o
+comportamento do protótipo. Nenhum valor de animação muda por causa disso.
+
+`prefers-reduced-motion: reduce` desliga as oito animações e deixa o cartão
+aberto, com o carimbo assentado, como no protótipo.
+
+A animação roda em laço sem controle de pausa na tela. O critério 2.2.2 do
+WCAG pede um mecanismo de pausa para movimento automático acima de 5s; o que
+existe aqui é o respeito a `prefers-reduced-motion`, que é a mitigação que o
+protótipo adota.
+
+---
+
 ## Fidelidade ao protótipo
 
 Cada seção é comparada pixel a pixel com o protótipo renderizado a 1280px e a
@@ -230,7 +272,7 @@ que fazem a página divergir dele de propósito:
 
 | Seção         | 1280px            | 375px             | Causa da diferença |
 | ------------- | ----------------- | ----------------- | ------------------ |
-| hero          | 0,338%            | 1,097%            | código de barras desenhado e canto do botão |
+| hero          | 0,338%            | 1,097%            | canto do botão |
 | estatísticas  | **0%**            | **0%**            | idêntico |
 | vantagens     | 0,588%            | 1,419%            | cor dos títulos |
 | método        | 0,280%            | 1,337%            | cor dos títulos |
@@ -257,14 +299,19 @@ do protótipo:
 5. Títulos de "Vantagens" e "Método" em `--ink` em vez do preto padrão do
    navegador, alinhando com o resto do sistema de cores.
 6. Selo dos cartões-postais em `--c3-ink`, por ser texto de 9,6px.
-7. O código de barras do cartão de embarque é desenhado (no protótipo a `div`
-   estava vazia).
+7. "Fluência" e o carimbo "Aula confirmada" do cartão de embarque ficam em
+   `--c3` (`#8C6D45`), como no protótipo, o que dá 4,25:1 sobre o fundo do
+   cartão e reprova o mínimo de 4,5:1 do WCAG AA para texto normal. Foi
+   mantido assim a pedido, por fidelidade literal ao protótipo. O projeto já
+   tem o token `--c3-ink` (`#7A5C36`), que sobe para 5,46:1 no mesmo fundo,
+   caso se decida corrigir depois.
 
 ---
 
 ## Acessibilidade
 
-- 38 pares de cor auditados no navegador, zero reprovações; os textos sobre
+- 39 pares de cor auditados no navegador, com a exceção registrada no desvio
+  7; os textos sobre
   degradê foram medidos por amostragem de pixel.
 - Navegação por teclado completa: link para pular o conteúdo, foco visível,
   `Esc` fecha o menu mobile devolvendo o foco ao botão.

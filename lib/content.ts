@@ -23,6 +23,9 @@ export const TICKET = {
     { k: "Turma", v: "Em breve" },
     { k: "Nível", v: "Todos" },
   ] satisfies TicketDetail[],
+  /* Carimbo do cartão, em duas linhas como no protótipo. */
+  stamp: ["Aula", "confirmada"],
+  ref: "TW-2847-EN · 90 DIAS",
   action: "Embarcar",
 };
 

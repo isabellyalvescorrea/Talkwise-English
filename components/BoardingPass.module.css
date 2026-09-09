@@ -1,8 +1,42 @@
+/* =========================================================================
+   Cartão de embarque
+   Valores copiados do protótipo aprovado: cores, tempos, porcentagens de
+   keyframe e tamanhos estão como no arquivo original, sem arredondamento.
+   Só a organização mudou, para caber em CSS Modules.
+   ========================================================================= */
+
 .wrap {
   display: flex;
   justify-content: center;
   position: relative;
   z-index: 1;
+  perspective: 1200px;
+}
+
+/* A classe .controlada só entra depois que o componente monta. Antes disso as
+   animações correm soltas, o que mantém o cartão visível sem JavaScript. Com
+   JavaScript, elas nascem pausadas e só soltam quando o cartão entra na tela,
+   exatamente como no protótipo. */
+.wrap.controlada .ticket,
+.wrap.controlada .ticket::after,
+.wrap.controlada .shine,
+.wrap.controlada .label,
+.wrap.controlada .route,
+.wrap.controlada .details,
+.wrap.controlada .bottom,
+.wrap.controlada .stamp {
+  animation-play-state: paused;
+}
+
+.wrap.controlada.naTela .ticket,
+.wrap.controlada.naTela .ticket::after,
+.wrap.controlada.naTela .shine,
+.wrap.controlada.naTela .label,
+.wrap.controlada.naTela .route,
+.wrap.controlada.naTela .details,
+.wrap.controlada.naTela .bottom,
+.wrap.controlada.naTela .stamp {
+  animation-play-state: running;
 }
 
 .ticket {
@@ -13,36 +47,297 @@
   width: 100%;
   box-shadow: 0 30px 70px -18px rgba(0, 0, 0, 0.45);
   overflow: hidden;
-  animation: stamp 0.7s cubic-bezier(0.2, 0.9, 0.3, 1.3) both;
-  animation-delay: 0.15s;
+  position: relative;
+  transform-origin: center top;
+  animation: ticketCycle 8s ease infinite;
 }
 
-@keyframes stamp {
-  from {
-    opacity: 0;
-    transform: scale(0.92) rotate(-2deg);
+.ticket::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to bottom, rgba(0, 0, 0, 0.4), transparent 55%);
+  pointer-events: none;
+  z-index: 4;
+  animation: creaseFade 8s ease infinite;
+}
+
+.stripe {
+  height: 5px;
+  background: linear-gradient(90deg, var(--c1), var(--c2), var(--c3));
+}
+
+.shine {
+  position: absolute;
+  inset: 0;
+  z-index: 6;
+  pointer-events: none;
+  background: linear-gradient(115deg, transparent 42%, rgba(255, 255, 255, 0.55) 50%, transparent 58%);
+  transform: translateX(-130%);
+  animation: shineSweep 8s ease infinite;
+}
+
+@keyframes ticketCycle {
+  0%,
+  10% {
+    transform: scaleY(0.07) rotateX(-20deg);
   }
-  to {
-    opacity: 1;
-    transform: scale(1) rotate(0deg);
+  25% {
+    transform: scaleY(1) rotateX(0deg);
+  }
+  44% {
+    transform: scaleY(1) rotateX(0deg);
+  }
+  44.5% {
+    transform: scaleY(1) rotateX(0deg) translate(-3px, 1px);
+  }
+  45% {
+    transform: scaleY(1) rotateX(0deg) translate(3px, -1px);
+  }
+  45.5% {
+    transform: scaleY(1) rotateX(0deg) translate(-2px, 0);
+  }
+  46% {
+    transform: scaleY(1) rotateX(0deg) translate(0, 0);
+  }
+  88% {
+    transform: scaleY(1) rotateX(0deg);
+  }
+  98%,
+  100% {
+    transform: scaleY(0.07) rotateX(-20deg);
+  }
+}
+
+@keyframes creaseFade {
+  0%,
+  10% {
+    opacity: 0.95;
+  }
+  25% {
+    opacity: 0;
+  }
+  88% {
+    opacity: 0;
+  }
+  98%,
+  100% {
+    opacity: 0.95;
+  }
+}
+
+@keyframes shineSweep {
+  0%,
+  27% {
+    transform: translateX(-130%);
+  }
+  33% {
+    transform: translateX(130%);
+  }
+  100% {
+    transform: translateX(130%);
   }
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .ticket {
+  .ticket,
+  .ticket::after,
+  .shine {
     animation: none;
+  }
+
+  .ticket {
+    transform: none;
+  }
+
+  .ticket::after {
+    opacity: 0;
+  }
+
+  .shine {
+    display: none;
+  }
+}
+
+/* Cada elemento tem seu próprio keyframe com o tempo absoluto do ciclo de 8s.
+   É isso que mantém tudo sincronizado em laço infinito: usar animation-delay
+   aqui dessincronizaria depois do primeiro ciclo. */
+@keyframes revealLabel {
+  0%,
+  24% {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+  28% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  85% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  90%,
+  100% {
+    opacity: 0;
+    transform: translateY(-4px);
+  }
+}
+
+@keyframes revealRoute {
+  0%,
+  27% {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+  31% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  85% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  90%,
+  100% {
+    opacity: 0;
+    transform: translateY(-4px);
+  }
+}
+
+@keyframes revealDetails {
+  0%,
+  30% {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+  34% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  85% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  90%,
+  100% {
+    opacity: 0;
+    transform: translateY(-4px);
+  }
+}
+
+@keyframes revealBottom {
+  0%,
+  33% {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+  37% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  85% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  90%,
+  100% {
+    opacity: 0;
+    transform: translateY(-4px);
+  }
+}
+
+.revealLabel {
+  animation: revealLabel 8s ease infinite;
+}
+
+.revealRoute {
+  animation: revealRoute 8s ease infinite;
+}
+
+.revealDetails {
+  animation: revealDetails 8s ease infinite;
+}
+
+.revealBottom {
+  animation: revealBottom 8s ease infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .revealLabel,
+  .revealRoute,
+  .revealDetails,
+  .revealBottom {
+    animation: none;
+    opacity: 1;
+    transform: none;
+  }
+}
+
+.stamp {
+  position: absolute;
+  bottom: 6px;
+  right: 8px;
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  border: 2.5px solid var(--c3);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  font-weight: 700;
+  font-size: 0.64rem;
+  letter-spacing: 0.03em;
+  color: var(--c3);
+  z-index: 3;
+  animation: stampCycle 8s ease infinite both;
+}
+
+@keyframes stampCycle {
+  0%,
+  38% {
+    opacity: 0;
+    transform: scale(2.4) rotate(-26deg);
+  }
+  44% {
+    opacity: 1;
+    transform: scale(0.94) rotate(-11deg);
+  }
+  47% {
+    opacity: 1;
+    transform: scale(1) rotate(-13deg);
+  }
+  88% {
+    opacity: 1;
+    transform: scale(1) rotate(-13deg);
+  }
+  95%,
+  100% {
+    opacity: 0;
+    transform: scale(1) rotate(-13deg);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .stamp {
+    animation: none;
+    opacity: 1;
+    transform: scale(1) rotate(-13deg);
   }
 }
 
 .top {
   padding: 26px 26px 22px;
+  position: relative;
 }
 
 .label {
-  font-size: 0.78rem;
-  color: var(--ink-muted);
+  font-size: 0.72rem;
+  color: var(--ink);
   margin-bottom: 16px;
-  font-weight: 500;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
 }
 
 .route {
@@ -54,10 +349,9 @@
 
 .point {
   flex: 1;
-  min-width: 0;
 }
 
-.k {
+.point .k {
   font-size: 0.72rem;
   color: var(--ink-muted);
   text-transform: uppercase;
@@ -71,25 +365,47 @@
   margin-top: 2px;
 }
 
+.from .v {
+  color: var(--ink-muted);
+  text-decoration: line-through;
+  text-decoration-color: rgba(91, 100, 112, 0.5);
+  text-decoration-thickness: 1.5px;
+}
+
+.to .v {
+  color: var(--c3);
+  position: relative;
+  display: inline-block;
+}
+
+.to .v::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: -3px;
+  height: 2px;
+  background: linear-gradient(90deg, var(--c1), var(--c2), var(--c3));
+  border-radius: 2px;
+}
+
 .line {
   flex-shrink: 0;
   width: 34px;
   height: 1px;
-  background: repeating-linear-gradient(
-    to right,
-    var(--ink-muted) 0 4px,
-    transparent 4px 8px
-  );
+  background: repeating-linear-gradient(to right, var(--c2) 0 4px, transparent 4px 8px);
   position: relative;
 }
 
-.line::after {
-  content: "→";
+.plane {
   position: absolute;
-  right: -10px;
-  top: -9px;
-  color: var(--ink-muted);
-  font-size: 0.9rem;
+  right: -8px;
+  top: -8px;
+  color: var(--c3);
+}
+
+.plane svg {
+  display: block;
 }
 
 .details {
@@ -98,12 +414,12 @@
   gap: 14px;
 }
 
-.details .k {
-  text-transform: none;
-  letter-spacing: 0;
+.details div .k {
+  font-size: 0.72rem;
+  color: var(--ink-muted);
 }
 
-.details .v {
+.details div .v {
   font-size: 0.92rem;
   font-weight: 500;
   margin-top: 2px;
@@ -137,9 +453,9 @@
 .bottom {
   padding: 22px 26px 26px;
   display: flex;
+  flex-direction: column;
   align-items: center;
-  justify-content: space-between;
-  gap: 16px;
+  gap: 14px;
 }
 
 .barcode {
@@ -147,14 +463,36 @@
   gap: 2px;
   height: 30px;
   align-items: flex-end;
-  flex: 1;
-  overflow: hidden;
+  justify-content: center;
+  width: 100%;
 }
 
 .barcode span {
   background: var(--ink);
   width: 2px;
-  flex-shrink: 0;
+  height: 100%;
+}
+
+.barcode span:nth-child(3n) {
+  height: 65%;
+}
+
+.barcode span:nth-child(5n) {
+  height: 45%;
+}
+
+.barcode span:nth-child(7n) {
+  height: 80%;
+}
+
+.barcode span:nth-child(4n + 1) {
+  height: 55%;
+}
+
+.ref {
+  font-size: 0.68rem;
+  letter-spacing: 0.08em;
+  color: var(--ink-muted);
 }
 
 .btn {
