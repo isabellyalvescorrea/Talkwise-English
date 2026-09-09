@@ -1,5 +1,7 @@
 .nav {
-  padding-block: 20px;
+  /* Recuo menor que os 20px da marca anterior: a logo é mais alta que o
+     antigo par quadrado + texto, e assim a faixa mantém a altura de sempre. */
+  padding-block: 16px;
   background: var(--navy);
   border-bottom: 1px solid var(--hairline-light);
   position: sticky;
@@ -26,17 +28,18 @@
 .brand {
   display: flex;
   align-items: center;
-  gap: 10px;
-  font-family: var(--font-serif);
-  font-weight: 600;
-  font-size: 1.15rem;
-  color: var(--cream-text);
   border-radius: 4px;
   transition: opacity 0.2s ease;
 }
 
 .brand:hover {
   opacity: 0.85;
+}
+
+/* Medidas vêm dos atributos width e height da imagem. Aqui fica só o display,
+   que remove o vão de linha de base herdado de elemento em linha. */
+.logo {
+  display: block;
 }
 
 .links {

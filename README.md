@@ -74,6 +74,8 @@ preenchido, o envio é descartado em silêncio.
 ## Estrutura
 
 ```
+public/
+  logo-talkwise.png    arte da marca, recortada no limite do conteúdo
 app/
   layout.tsx           metadados, fontes e JSON-LD
   page.tsx             composição da página
@@ -94,7 +96,7 @@ components/
   Testimonials.tsx     depoimentos em cartão-postal
   Faq.tsx              acordeão com <details> nativo
   Footer.tsx
-  BrandMark.tsx        símbolo da marca
+  BrandLogo.tsx        marca, servida por next/image
 lib/
   content.ts           todo o texto editorial em um arquivo só
   site.ts              resolução tolerante a falhas da URL canônica
@@ -183,10 +185,48 @@ declara em 700.
 
 ---
 
+## Marca
+
+A logo é a arte fornecida pelo cliente, um arquivo raster com fundo
+transparente. Ela vai para `public/logo-talkwise.png` recortada no limite exato
+do conteúdo, sem a moldura transparente do original: assim o espaçamento na
+faixa e no rodapé vem do CSS e não de área vazia dentro da imagem.
+
+O arquivo é 660 x 198, exatamente 10:3. O componente `BrandLogo` recebe a
+altura e calcula a largura por essa proporção, mandando as duas medidas nos
+atributos da imagem em vez de redimensionar por CSS. Com isso o `next/image`
+gera um srcset curto, de 1x e 2x da largura real de exibição, em vez da lista
+inteira de larguras do projeto. São 39px de altura na faixa fixa e 42px no
+rodapé.
+
+A logo da faixa está acima da dobra e usa `loading="eager"` com
+`fetchPriority="high"`. O `priority` foi depreciado no Next 16 em favor de
+`preload`, e a própria documentação recomenda `eager` para casos como este, em
+que a imagem não é o maior elemento da tela.
+
+Na faixa o `alt` é vazio de propósito: o link que envolve a logo já carrega o
+nome acessível pelo `aria-label`, e um `alt` preenchido faria o leitor de tela
+anunciar a marca duas vezes. No rodapé, onde não há link, o `alt` é
+"Talkwise English".
+
+O favicon (`app/icon.svg`) segue sendo o quadrado camel com o chevron vazado.
+É deliberado: o formato quadrado funciona a 16px, onde a marca deitada não
+funcionaria, e a cor conversa com o resto da paleta do site.
+
+---
+
 ## Fidelidade ao protótipo
 
 Cada seção é comparada pixel a pixel com o protótipo renderizado a 1280px e a
-375px, com a faixa fixa oculta para não interferir no recorte.
+375px, com a faixa fixa oculta para não interferir no recorte. Os números
+abaixo são de antes de duas mudanças pedidas depois da aprovação do protótipo,
+que fazem a página divergir dele de propósito:
+
+- a marca do protótipo (quadrado camel mais a palavra "Talkwise" em texto) deu
+  lugar à logo do cliente, na faixa e no rodapé;
+- os rótulos de seção ("Talkwise English" no hero, "Vantagens", "Método",
+  "Sobre", "Alunos" e "Dúvidas") foram removidos. Cada seção ficou entre 29px e
+  36px mais curta e passou a começar direto pelo título.
 
 | Seção         | 1280px            | 375px             | Causa da diferença |
 | ------------- | ----------------- | ----------------- | ------------------ |
@@ -199,9 +239,6 @@ Cada seção é comparada pixel a pixel com o protótipo renderizado a 1280px e 
 | alunos        | 0,011%            | 0,023%            | cor do selo dos cartões-postais |
 | dúvidas       | **0%**            | **0%**            | idêntico |
 | rodapé        | 0,022%            | **0%**            | antialiasing de um glifo |
-
-Todas as alturas de seção coincidem com as do protótipo nas duas larguras, e a
-altura total da página a 1280px é a mesma, 4497px.
 
 Desvios deliberados, todos por acessibilidade ou por defeito de renderização
 do protótipo:
@@ -227,7 +264,7 @@ do protótipo:
 
 ## Acessibilidade
 
-- 42 pares de cor auditados no navegador, zero reprovações; os textos sobre
+- 38 pares de cor auditados no navegador, zero reprovações; os textos sobre
   degradê foram medidos por amostragem de pixel.
 - Navegação por teclado completa: link para pular o conteúdo, foco visível,
   `Esc` fecha o menu mobile devolvendo o foco ao botão.

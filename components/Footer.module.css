@@ -18,10 +18,9 @@
 .brand {
   display: flex;
   align-items: center;
-  gap: 10px;
-  font-family: var(--font-serif);
-  font-weight: 600;
-  font-size: 1.15rem;
-  color: var(--cream-text);
-  margin-bottom: 12px;
+  margin-bottom: 14px;
+}
+
+.logo {
+  display: block;
 }

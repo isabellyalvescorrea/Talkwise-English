@@ -1,3 +1,5 @@
+import { readFile } from "node:fs/promises";
+import path from "node:path";
 import { ImageResponse } from "next/og";
 
 export const alt = "Talkwise English: fale inglês com confiança";
@@ -31,10 +33,25 @@ async function carregarFonte(familia: string, peso: number): Promise<ArrayBuffer
   }
 }
 
+/**
+ * Lê a logo do disco e devolve como data URI, que é o que o renderizador da
+ * imagem aceita. Se falhar, o cabeçalho cai para a versão em texto: o build
+ * não pode depender da leitura do arquivo.
+ */
+async function carregarLogo(): Promise<string | null> {
+  try {
+    const arquivo = await readFile(path.join(process.cwd(), "public", "logo-talkwise.png"));
+    return `data:image/png;base64,${arquivo.toString("base64")}`;
+  } catch {
+    return null;
+  }
+}
+
 export default async function OpengraphImage() {
-  const [serif, sans] = await Promise.all([
+  const [serif, sans, logo] = await Promise.all([
     carregarFonte("Playfair+Display", 600),
     carregarFonte("Inter", 400),
+    carregarLogo(),
   ]);
 
   const fonts = [
@@ -60,19 +77,15 @@ export default async function OpengraphImage() {
           fontFamily: sansFamily,
         }}
       >
-        <div style={{ display: "flex", alignItems: "center", gap: 18 }}>
-          <div
-            style={{
-              display: "flex",
-              width: 56,
-              height: 56,
-              borderRadius: 8,
-              background: "linear-gradient(135deg, #D9C4A3, #B89768)",
-            }}
-          />
-          <div style={{ display: "flex", fontSize: 34, fontFamily: serifFamily, fontWeight: 600 }}>
-            Talkwise
-          </div>
+        <div style={{ display: "flex", alignItems: "center" }}>
+          {logo ? (
+            <img src={logo} alt="" width={280} height={84} />
+          ) : (
+            <div style={{ display: "flex", fontSize: 44, fontFamily: serifFamily, fontWeight: 600 }}>
+              <span>Talk</span>
+              <span style={{ color: "#AAB7CD" }}>wise</span>
+            </div>
+          )}
         </div>
 
         <div style={{ display: "flex", flexDirection: "column", gap: 26 }}>

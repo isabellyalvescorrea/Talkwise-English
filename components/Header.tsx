@@ -2,7 +2,7 @@
 
 import { useCallback, useEffect, useRef, useState } from "react";
 import { CTA_HREF, NAV_LINKS } from "@/lib/content";
-import BrandMark from "./BrandMark";
+import BrandLogo from "./BrandLogo";
 import styles from "./Header.module.css";
 
 const SECTION_IDS = NAV_LINKS.map((link) => link.href.slice(1));
@@ -72,9 +72,8 @@ export default function Header() {
   return (
     <nav ref={navRef} className={styles.nav} aria-label="Navegação principal">
       <div className={`${styles.navShell} ${styles.row}`}>
-        <a className={styles.brand} href="#topo" aria-label="Talkwise, ir para o topo">
-          <BrandMark />
-          Talkwise
+        <a className={styles.brand} href="#topo" aria-label="Talkwise English, ir para o topo">
+          <BrandLogo className={styles.logo} height={39} alt="" eager />
         </a>
 
         <div className={styles.links}>

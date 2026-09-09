@@ -6,7 +6,6 @@ export default function About() {
     <section id="sobre" className="section on-white" aria-labelledby="sobre-titulo">
       <div className={`shell ${styles.grid}`}>
         <div className={styles.copy}>
-          <p className="eyebrow">Sobre</p>
           <h2 className="sr-only" id="sobre-titulo">
             Sobre a Talkwise
           </h2>

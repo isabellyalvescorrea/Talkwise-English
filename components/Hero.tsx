@@ -7,8 +7,6 @@ export default function Hero() {
     <header id="topo" className={styles.hero}>
       <div className={`shell ${styles.inner}`}>
         <div className={styles.copy}>
-          <p className="eyebrow">Talkwise English</p>
-
           <h1 className={styles.title}>
             Fale <span className={styles.grey}>inglês</span> com{" "}
             <span className={styles.emph}>confiança</span>.

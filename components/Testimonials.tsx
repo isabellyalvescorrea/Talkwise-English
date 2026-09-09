@@ -6,7 +6,6 @@ export default function Testimonials() {
     <section id="alunos" className="section on-pastel" aria-labelledby="alunos-titulo">
       <div className="shell">
         <div className="section-head">
-          <p className="eyebrow">Alunos</p>
           <h2 id="alunos-titulo">Quem já embarcou.</h2>
         </div>
 

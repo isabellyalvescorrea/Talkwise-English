@@ -6,7 +6,6 @@ export default function Method() {
     <section id="metodo" className="section on-pastel" aria-labelledby="metodo-titulo">
       <div className="shell">
         <div className="section-head">
-          <p className="eyebrow">Método</p>
           <h2 id="metodo-titulo">Quatro etapas, sem atalhos e sem enrolação.</h2>
         </div>
 

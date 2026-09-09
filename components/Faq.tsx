@@ -6,7 +6,6 @@ export default function Faq() {
     <section id="duvidas" className="section on-white" aria-labelledby="duvidas-titulo">
       <div className="shell">
         <div className="section-head">
-          <p className="eyebrow">Dúvidas</p>
           <h2 id="duvidas-titulo">Antes de reservar sua vaga.</h2>
         </div>
 

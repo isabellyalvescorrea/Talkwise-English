@@ -4,8 +4,8 @@
   gap: 40px;
 }
 
-/* Classe própria em vez de seletor de elemento: `.copy p` também alcançaria
-   o .eyebrow, que no protótipo é uma div e não herda estes valores. */
+/* Classe própria em vez de `.copy p`: mantém o alcance explícito nos dois
+   parágrafos, sem depender de qual elemento venha a entrar na coluna. */
 .text {
   font-size: 1.02rem;
   line-height: 1.7;

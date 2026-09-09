@@ -150,24 +150,6 @@ ol {
   line-height: 1.2;
 }
 
-.eyebrow {
-  color: var(--cream-muted);
-  font-size: 0.85rem;
-  font-weight: 500;
-  letter-spacing: 0.02em;
-  margin-bottom: 18px;
-  display: flex;
-  align-items: center;
-  gap: 8px;
-}
-
-.eyebrow::before {
-  content: "";
-  width: 16px;
-  height: 1px;
-  background: var(--cream-muted);
-}
-
 .on-white {
   background: var(--white);
 }
@@ -179,16 +161,6 @@ ol {
 .on-white .section-head h2,
 .on-pastel .section-head h2 {
   color: var(--ink);
-}
-
-.on-white .eyebrow,
-.on-pastel .eyebrow {
-  color: var(--ink-muted);
-}
-
-.on-white .eyebrow::before,
-.on-pastel .eyebrow::before {
-  background: var(--ink-muted);
 }
 
 /* =========================================================================
