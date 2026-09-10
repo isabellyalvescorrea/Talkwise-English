@@ -27,6 +27,11 @@
   --hairline-dark: rgba(27, 39, 51, 0.12);
   --hairline-light: rgba(255, 255, 255, 0.1);
 
+  /* Fundo dos itens sob o ponteiro, na mesma família camel dos acentos. */
+  --realce: rgba(140, 109, 69, 0.06);
+  /* Curva de saída usada na revelação e nos realces. */
+  --saida: cubic-bezier(0.22, 0.61, 0.36, 1);
+
   /* --- Tipografia ---
      As famílias vêm da folha do Google Fonts carregada no <head>, com a URL
      copiada do protótipo. Os tokens repetem literalmente o que o protótipo
@@ -141,7 +146,9 @@ ol {
 
 .section-head {
   max-width: 44ch;
+  margin-inline: auto;
   margin-bottom: 40px;
+  text-align: center;
 }
 
 .section-head h2 {
@@ -161,6 +168,28 @@ ol {
 .on-white .section-head h2,
 .on-pastel .section-head h2 {
   color: var(--ink);
+}
+
+/* =========================================================================
+   Revelação por scroll
+   ========================================================================= */
+
+/* O estado escondido só existe quando o script do <head> marca a raiz. Sem
+   JavaScript a classe nunca entra e todo o conteúdo aparece normalmente, em
+   vez de ficar invisível para sempre.
+
+   O deslocamento usa `translate`, e não `transform`: são propriedades
+   independentes, então a revelação e os realces de hover, que usam
+   `transform`, se somam em vez de uma sobrescrever a outra. */
+.revelar-ativo [data-revelar] {
+  opacity: 0;
+  translate: 0 20px;
+  transition: opacity 0.55s var(--saida), translate 0.55s var(--saida);
+}
+
+.revelar-ativo [data-revelar].revelado {
+  opacity: 1;
+  translate: 0 0;
 }
 
 /* =========================================================================
@@ -284,6 +313,14 @@ ol {
 @media (prefers-reduced-motion: reduce) {
   html {
     scroll-behavior: auto;
+  }
+
+  /* Nada de revelar: o conteúdo já nasce visível e parado. */
+  .revelar-ativo [data-revelar],
+  .revelar-ativo [data-revelar].revelado {
+    opacity: 1;
+    translate: none;
+    transition: none;
   }
 
   .btn-primary::before {

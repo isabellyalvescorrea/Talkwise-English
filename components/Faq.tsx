@@ -11,7 +11,7 @@ export default function Faq() {
 
         <div className={styles.list}>
           {FAQS.map((faq) => (
-            <details key={faq.q} className={styles.item}>
+            <details key={faq.q} className={styles.item} data-revelar>
               <summary className={styles.summary}>{faq.q}</summary>
               <p>{faq.a}</p>
             </details>

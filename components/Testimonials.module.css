@@ -4,6 +4,7 @@
   gap: 20px;
 }
 
+/* Sem a inclinação de cartão-postal: os três ficam retos e alinhados. */
 .postcard {
   background: var(--white);
   border: 1px solid rgba(27, 39, 51, 0.1);
@@ -11,14 +12,14 @@
   padding: 24px;
   position: relative;
   margin: 0;
+  transition: transform 0.25s var(--saida), box-shadow 0.25s var(--saida);
 }
 
-.postcards > .postcard:nth-child(2) {
-  transform: rotate(-0.6deg);
-}
-
-.postcards > .postcard:nth-child(3) {
-  transform: rotate(0.5deg);
+@media (hover: hover) {
+  .postcard:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 18px 34px -18px rgba(27, 39, 51, 0.45);
+  }
 }
 
 .stamp {

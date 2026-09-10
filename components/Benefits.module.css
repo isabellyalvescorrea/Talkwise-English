@@ -8,6 +8,38 @@
   gap: 16px;
   padding: 22px 0;
   border-top: 1px solid var(--hairline-dark);
+  position: relative;
+  transition: background-color 0.25s var(--saida);
+}
+
+.benefit::before {
+  content: "";
+  position: absolute;
+  inset-block: 0;
+  left: -14px;
+  width: 3px;
+  border-radius: 2px;
+  background: var(--c2);
+  opacity: 0;
+  transition: opacity 0.25s var(--saida);
+}
+
+.conteudo {
+  transition: transform 0.25s var(--saida);
+}
+
+@media (hover: hover) {
+  .benefit:hover {
+    background-color: var(--realce);
+  }
+
+  .benefit:hover::before {
+    opacity: 1;
+  }
+
+  .benefit:hover .conteudo {
+    transform: translateX(4px);
+  }
 }
 
 .benefits > .benefit:last-child {

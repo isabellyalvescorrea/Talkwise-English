@@ -17,6 +17,13 @@
   cursor: pointer;
   color: var(--ink);
   border-radius: 4px;
+  transition: color 0.25s var(--saida);
+}
+
+@media (hover: hover) {
+  .summary:hover {
+    color: var(--c3-ink);
+  }
 }
 
 .summary::-webkit-details-marker {

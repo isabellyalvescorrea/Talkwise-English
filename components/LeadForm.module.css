@@ -5,12 +5,32 @@
 .box {
   background: linear-gradient(135deg, var(--c1), var(--c2) 60%, var(--c3));
   border-radius: 14px;
-  padding: 40px 28px;
+  padding: 44px 28px;
   display: flex;
   flex-direction: column;
-  gap: 24px;
+  gap: 34px;
   position: relative;
   overflow: hidden;
+}
+
+/* Rótulo no estilo dos antigos eyebrows de seção: filete curto e texto
+   pequeno. Em tinta sólida, porque o fundo aqui é o degradê camel. */
+.tag {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 18px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  color: var(--ink);
+}
+
+.tag::before {
+  content: "";
+  width: 16px;
+  height: 1px;
+  background: var(--ink);
 }
 
 .box h2 {
@@ -23,8 +43,10 @@
    A tinta sólida fecha o AA sem mexer em métrica: espaçamento e entrelinha
    seguem os do protótipo, para não deslocar as seções seguintes. */
 .lede {
+  margin-top: 16px;
   color: var(--ink);
   font-size: 0.95rem;
+  line-height: 1.6;
   max-width: 40ch;
 }
 
@@ -34,6 +56,19 @@
   gap: 12px;
 }
 
+.campos {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+/* Discreta pelo tamanho, não por opacidade: sobre o degradê camel, baixar a
+   opacidade comeria a folga de contraste de um texto que já é pequeno. */
+.nota {
+  font-size: 0.78rem;
+  color: var(--ink);
+}
+
 .field {
   display: flex;
   flex-direction: column;
@@ -41,16 +76,25 @@
 
 .input {
   width: 100%;
-  padding: 14px 16px;
+  padding: 17px 18px;
   border-radius: 6px;
   border: 1px solid rgba(27, 39, 51, 0.2);
   background: #ffffff;
   color: var(--ink);
   font-size: 0.95rem;
+  transition: border-color 0.2s var(--saida), box-shadow 0.2s var(--saida);
 }
 
 .input::placeholder {
   color: var(--ink-muted);
+}
+
+/* Destaque ao clicar ou tabular até o campo: borda mais forte e um anel
+   discreto. O contorno de foco por teclado continua por cima, para quem
+   navega sem ponteiro. */
+.input:focus {
+  border-color: var(--ink);
+  box-shadow: 0 0 0 3px rgba(27, 39, 51, 0.18);
 }
 
 .input:focus-visible {
@@ -82,11 +126,14 @@
   border-radius: 6px;
   font-weight: 600;
   font-size: 0.95rem;
-  transition: opacity 0.2s ease;
+  transition: opacity 0.2s ease, transform 0.2s var(--saida);
 }
 
-.submit:hover:not(:disabled) {
-  opacity: 0.85;
+@media (hover: hover) {
+  .submit:hover:not(:disabled) {
+    opacity: 0.85;
+    transform: translateY(-1px);
+  }
 }
 
 .submit:disabled {
@@ -122,9 +169,12 @@
   }
 
   .form {
+    min-width: 380px;
+  }
+
+  .campos {
     flex-direction: row;
     align-items: flex-start;
-    min-width: 380px;
   }
 
   .field {

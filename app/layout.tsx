@@ -1,4 +1,5 @@
 import type { Metadata, Viewport } from "next";
+import ScrollReveal from "@/components/ScrollReveal";
 import { FAQS } from "@/lib/content";
 import { SITE_URL } from "@/lib/site";
 import "./globals.css";
@@ -8,6 +9,8 @@ import "./globals.css";
    esta folha de estilo, sem reconstrução equivalente. */
 const GOOGLE_FONTS_HREF =
   "https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&family=Inter:wght@400;500;600&display=swap";
+
+const MARCA_REVELACAO = `document.documentElement.classList.add("revelar-ativo")`;
 
 const title = "Talkwise English: fale inglês com confiança";
 const description =
@@ -97,9 +100,15 @@ export default function RootLayout({
       <head>
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link href={GOOGLE_FONTS_HREF} rel="stylesheet" />
+        {/* Marca a raiz antes da primeira pintura, para os itens já nascerem
+            escondidos e não piscarem. Se o JavaScript estiver desligado o
+            script não roda, a classe nunca entra e o conteúdo aparece
+            normalmente, em vez de ficar invisível para sempre. */}
+        <script dangerouslySetInnerHTML={{ __html: MARCA_REVELACAO }} />
       </head>
       <body>
         {children}
+        <ScrollReveal />
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(dadosEstruturados) }}

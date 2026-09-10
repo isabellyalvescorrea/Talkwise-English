@@ -97,6 +97,7 @@ components/
   Faq.tsx              acordeão com <details> nativo
   Footer.tsx
   BrandLogo.tsx        marca, servida por next/image
+  ScrollReveal.tsx     revelação item a item, um alvo por elemento
 lib/
   content.ts           todo o texto editorial em um arquivo só
   site.ts              resolução tolerante a falhas da URL canônica
@@ -212,6 +213,69 @@ anunciar a marca duas vezes. No rodapé, onde não há link, o `alt` é
 O favicon (`app/icon.svg`) segue sendo o quadrado camel com o chevron vazado.
 É deliberado: o formato quadrado funciona a 16px, onde a marca deitada não
 funcionaria, e a cor conversa com o resto da paleta do site.
+
+---
+
+## Revelação por scroll
+
+Os 22 itens repetidos das seções (3 da faixa de estatísticas, 4 de Vantagens,
+4 do Método, 3 professores, 3 depoimentos e 5 perguntas) nascem invisíveis e
+aparecem com esmaecimento e uma subida de 20px quando cruzam a faixa de
+disparo.
+
+O ponto que decide se o efeito fica bom é **o que se observa**. Observar a
+seção, ou o container da lista, faz todos os filhos aparecerem em bloco no
+instante em que o container entra na tela. Aqui cada item marcado com
+`data-revelar` é registrado como um alvo próprio do `IntersectionObserver`, e
+por isso gera a própria entrada e aparece no seu próprio momento. Um único
+observador atende a página inteira, o que é só economia de instâncias e não
+muda nada disso.
+
+O observador nunca deixa de observar um alvo, então o efeito é reversível nos
+dois sentidos: o item some ao sair da faixa e volta a aparecer ao entrar de
+novo. Faixa de disparo: `threshold: 0.2` com `rootMargin: 0px 0px -12% 0px`.
+
+Medido a 375px, onde tudo empilha: os 22 itens aparecem em **22 posições de
+scroll distintas**, nenhuma simultânea. A 1280px os únicos grupos que aparecem
+juntos são os que estão lado a lado (a faixa de estatísticas em linha, as
+vantagens em duas colunas e os depoimentos em linha), o que é o comportamento
+correto para itens que entram na tela ao mesmo tempo.
+
+O deslocamento usa `translate`, e não `transform`. São propriedades
+independentes, então a revelação e os realces de hover, que usam `transform`,
+se somam em vez de uma anular a outra.
+
+Duas quedas de segurança, porque um efeito assim escondendo conteúdo é pior
+que não ter efeito nenhum:
+
+- o estado invisível só existe sob a classe `revelar-ativo`, que um script
+  síncrono no `<head>` coloca na raiz antes da primeira pintura. Sem
+  JavaScript o script não roda, a classe nunca entra e todo o conteúdo aparece
+  normalmente. Conferido: 0 de 22 itens invisíveis com o JavaScript desligado;
+- `prefers-reduced-motion: reduce` deixa tudo visível e parado.
+
+---
+
+## Realces de ponteiro
+
+Todos os realces novos ficam dentro de `@media (hover: hover)`. Em aparelho de
+toque a consulta é falsa, então eles nem são aplicados e não existe estado de
+hover preso depois de um toque. No celular o que dá vida à página é a
+revelação por scroll acima, não uma imitação de hover.
+
+| Onde | Efeito |
+| ---- | ------ |
+| links do menu | cor e sublinhado que cresce da esquerda, animando `transform` e não a largura |
+| itens de Método e Vantagens | barra camel à esquerda, fundo em `--realce` e conteúdo deslocando 4px |
+| professores | fundo em `--realce` e deslocamento de 3px |
+| faixa de estatísticas | fundo em `--realce` |
+| perguntas do FAQ | texto passa para `--c3-ink` |
+| depoimentos | sobem 4px e ganham sombra |
+| botões e logo | opacidade e elevação de 1px |
+
+A barra à esquerda dos itens é desenhada por pseudo-elemento posicionado fora
+da caixa de conteúdo, em `left: -14px`. Uma `border-left` de verdade empurraria
+o texto, e alargaria o filete que separa os itens.
 
 ---
 

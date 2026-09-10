@@ -6,7 +6,7 @@ export default function Stats() {
     <section aria-label="Como funcionam as turmas" className={styles.band}>
       <ul className={`shell shell--flush ${styles.stats}`}>
         {STATS.map((stat) => (
-          <li key={stat.label} className={styles.stat}>
+          <li key={stat.label} className={styles.stat} data-revelar>
             <span className={styles.num}>{stat.num}</span>
             <span className={styles.label}>{stat.label}</span>
           </li>

@@ -50,13 +50,35 @@
 }
 
 .links a {
+  position: relative;
   transition: color 0.2s ease;
   border-radius: 4px;
+}
+
+/* Sublinhado que cresce da esquerda para a direita. Anima `transform`, e não
+   a largura, para não recalcular layout a cada quadro. */
+.links a::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: -6px;
+  height: 1.5px;
+  background: var(--c2);
+  transform: scaleX(0);
+  transform-origin: left center;
+  transition: transform 0.28s var(--saida);
 }
 
 .links a:hover,
 .links a[aria-current="true"] {
   color: var(--cream-text);
+}
+
+@media (hover: hover) {
+  .links a:hover::after {
+    transform: scaleX(1);
+  }
 }
 
 .cta {
@@ -70,11 +92,14 @@
   border-radius: 6px;
   font-size: 0.9rem;
   font-weight: 600;
-  transition: opacity 0.2s ease;
+  transition: opacity 0.2s ease, transform 0.2s var(--saida);
 }
 
-.ctaBtn:hover {
-  opacity: 0.85;
+@media (hover: hover) {
+  .ctaBtn:hover {
+    opacity: 0.85;
+    transform: translateY(-1px);
+  }
 }
 
 .burger {

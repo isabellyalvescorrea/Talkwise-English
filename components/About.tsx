@@ -21,7 +21,7 @@ export default function About() {
 
         <ul className={styles.teachers}>
           {TEACHERS.map((teacher) => (
-            <li key={teacher.name} className={styles.teacher}>
+            <li key={teacher.name} className={styles.teacher} data-revelar>
               <span>
                 <span className={styles.name}>{teacher.name}</span>
                 <span className={styles.from}>{teacher.from}</span>

@@ -75,6 +75,7 @@ export default function LeadForm() {
       <div className="shell">
         <div className={styles.box}>
           <div>
+            <p className={styles.tag}>Conteúdo gratuito</p>
             <h2 className="serif" id={`${uid}-titulo`}>
               As 100 frases essenciais pra sua primeira conversa em inglês.
             </h2>
@@ -95,75 +96,79 @@ export default function LeadForm() {
 
           {status === "success" ? null : (
             <form className={styles.form} onSubmit={handleSubmit} noValidate>
-              <div className={styles.field}>
-                <label className="sr-only" htmlFor={nomeId}>
-                  Seu nome
-                </label>
+              <div className={styles.campos}>
+                <div className={styles.field}>
+                  <label className="sr-only" htmlFor={nomeId}>
+                    Seu nome
+                  </label>
+                  <input
+                    ref={nomeRef}
+                    id={nomeId}
+                    name="nome"
+                    type="text"
+                    className={styles.input}
+                    placeholder="Seu nome"
+                    autoComplete="given-name"
+                    value={nome}
+                    onChange={(evento) => {
+                      setNome(evento.target.value);
+                      if (erros.nome) setErros((atual) => ({ ...atual, nome: undefined }));
+                    }}
+                    aria-invalid={erros.nome ? "true" : undefined}
+                    aria-describedby={erros.nome ? `${nomeId}-erro` : undefined}
+                    required
+                  />
+                  {erros.nome ? (
+                    <span className={styles.error} id={`${nomeId}-erro`}>
+                      {erros.nome}
+                    </span>
+                  ) : null}
+                </div>
+
+                <div className={styles.field}>
+                  <label className="sr-only" htmlFor={emailId}>
+                    Seu e-mail
+                  </label>
+                  <input
+                    ref={emailRef}
+                    id={emailId}
+                    name="email"
+                    type="email"
+                    className={styles.input}
+                    placeholder="Seu e-mail"
+                    autoComplete="email"
+                    inputMode="email"
+                    value={email}
+                    onChange={(evento) => {
+                      setEmail(evento.target.value);
+                      if (erros.email) setErros((atual) => ({ ...atual, email: undefined }));
+                    }}
+                    aria-invalid={erros.email ? "true" : undefined}
+                    aria-describedby={erros.email ? `${emailId}-erro` : undefined}
+                    required
+                  />
+                  {erros.email ? (
+                    <span className={styles.error} id={`${emailId}-erro`}>
+                      {erros.email}
+                    </span>
+                  ) : null}
+                </div>
+
                 <input
-                  ref={nomeRef}
-                  id={nomeId}
-                  name="nome"
                   type="text"
-                  className={styles.input}
-                  placeholder="Seu nome"
-                  autoComplete="given-name"
-                  value={nome}
-                  onChange={(evento) => {
-                    setNome(evento.target.value);
-                    if (erros.nome) setErros((atual) => ({ ...atual, nome: undefined }));
-                  }}
-                  aria-invalid={erros.nome ? "true" : undefined}
-                  aria-describedby={erros.nome ? `${nomeId}-erro` : undefined}
-                  required
+                  name="empresa"
+                  className={styles.honeypot}
+                  tabIndex={-1}
+                  autoComplete="off"
+                  aria-hidden
                 />
-                {erros.nome ? (
-                  <span className={styles.error} id={`${nomeId}-erro`}>
-                    {erros.nome}
-                  </span>
-                ) : null}
+
+                <button type="submit" className={styles.submit} disabled={carregando}>
+                  {carregando ? "Enviando…" : "Baixar guia grátis"}
+                </button>
               </div>
 
-              <div className={styles.field}>
-                <label className="sr-only" htmlFor={emailId}>
-                  Seu e-mail
-                </label>
-                <input
-                  ref={emailRef}
-                  id={emailId}
-                  name="email"
-                  type="email"
-                  className={styles.input}
-                  placeholder="Seu e-mail"
-                  autoComplete="email"
-                  inputMode="email"
-                  value={email}
-                  onChange={(evento) => {
-                    setEmail(evento.target.value);
-                    if (erros.email) setErros((atual) => ({ ...atual, email: undefined }));
-                  }}
-                  aria-invalid={erros.email ? "true" : undefined}
-                  aria-describedby={erros.email ? `${emailId}-erro` : undefined}
-                  required
-                />
-                {erros.email ? (
-                  <span className={styles.error} id={`${emailId}-erro`}>
-                    {erros.email}
-                  </span>
-                ) : null}
-              </div>
-
-              <input
-                type="text"
-                name="empresa"
-                className={styles.honeypot}
-                tabIndex={-1}
-                autoComplete="off"
-                aria-hidden
-              />
-
-              <button type="submit" className={styles.submit} disabled={carregando}>
-                {carregando ? "Enviando…" : "Baixar guia grátis"}
-              </button>
+              <p className={styles.nota}>Sem spam. Cancele quando quiser.</p>
             </form>
           )}
         </div>

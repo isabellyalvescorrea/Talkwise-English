@@ -11,9 +11,9 @@ export default function Benefits() {
 
         <ul className={styles.benefits}>
           {BENEFITS.map((benefit) => (
-            <li key={benefit.title} className={styles.benefit}>
+            <li key={benefit.title} className={styles.benefit} data-revelar>
               <span className={styles.mark} aria-hidden />
-              <div>
+              <div className={styles.conteudo}>
                 <h3>{benefit.title}</h3>
                 <p>{benefit.text}</p>
               </div>

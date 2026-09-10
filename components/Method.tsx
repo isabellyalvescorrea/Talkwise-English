@@ -11,11 +11,11 @@ export default function Method() {
 
         <ol className={styles.steps}>
           {STEPS.map((step) => (
-            <li key={step.n} className={styles.step}>
+            <li key={step.n} className={styles.step} data-revelar>
               <span className={styles.n} aria-hidden>
                 {step.n}
               </span>
-              <div>
+              <div className={styles.conteudo}>
                 <h3>
                   <span className="sr-only">Etapa {step.n}: </span>
                   {step.title}

@@ -8,6 +8,40 @@
   gap: 22px;
   padding: 26px 0;
   border-top: 1px solid var(--hairline-dark);
+  position: relative;
+  transition: background-color 0.25s var(--saida);
+}
+
+/* Barra de acento fora da caixa de conteúdo: aparece sem empurrar o texto,
+   e sem alargar o filete que separa as etapas. */
+.step::before {
+  content: "";
+  position: absolute;
+  inset-block: 0;
+  left: -14px;
+  width: 3px;
+  border-radius: 2px;
+  background: var(--c2);
+  opacity: 0;
+  transition: opacity 0.25s var(--saida);
+}
+
+.conteudo {
+  transition: transform 0.25s var(--saida);
+}
+
+@media (hover: hover) {
+  .step:hover {
+    background-color: var(--realce);
+  }
+
+  .step:hover::before {
+    opacity: 1;
+  }
+
+  .step:hover .conteudo {
+    transform: translateX(4px);
+  }
 }
 
 .steps > .step:last-child {

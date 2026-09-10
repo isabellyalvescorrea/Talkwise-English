@@ -25,6 +25,21 @@
   gap: 16px;
   padding: 16px 0;
   border-top: 1px solid rgba(27, 39, 51, 0.14);
+  transition: background-color 0.25s var(--saida);
+}
+
+.teacher > * {
+  transition: transform 0.25s var(--saida);
+}
+
+@media (hover: hover) {
+  .teacher:hover {
+    background-color: var(--realce);
+  }
+
+  .teacher:hover > * {
+    transform: translateX(3px);
+  }
 }
 
 .teachers > .teacher:last-child {
