@@ -184,7 +184,8 @@ ol {
 .revelar-ativo [data-revelar] {
   opacity: 0;
   translate: 0 20px;
-  transition: opacity 0.55s var(--saida), translate 0.55s var(--saida);
+  transition: opacity 0.55s var(--saida) var(--atraso, 0ms),
+    translate 0.55s var(--saida) var(--atraso, 0ms);
 }
 
 .revelar-ativo [data-revelar].revelado {

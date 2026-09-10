@@ -7,19 +7,19 @@ export default function Hero() {
     <header id="topo" className={styles.hero}>
       <div className={`shell ${styles.inner}`}>
         <div className={styles.copy}>
-          <h1 className={styles.title}>
+          <h1 className={styles.title} data-revelar>
             Fale <span className={styles.grey}>inglês</span> com{" "}
             <span className={styles.emph}>confiança</span>.
             <br />
             Viva novas <span className={styles.grey}>possibilidades</span>.
           </h1>
 
-          <p className={styles.lede}>
+          <p className={styles.lede} data-revelar>
             Aulas ao vivo, em grupos pequenos, com professores nativos. Você pratica desde o
             primeiro encontro, sem promessas de fluência instantânea.
           </p>
 
-          <div className={styles.ctas}>
+          <div className={styles.ctas} data-revelar>
             <a href={CTA_HREF} className="btn-primary">
               Reservar minha aula grátis
             </a>
@@ -28,7 +28,7 @@ export default function Hero() {
             </a>
           </div>
 
-          <p className={styles.finePrint}>
+          <p className={styles.finePrint} data-revelar>
             ✓ Aula experimental de 30 minutos, sem cartão de crédito.
           </p>
         </div>

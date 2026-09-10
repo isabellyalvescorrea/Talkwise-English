@@ -17,7 +17,12 @@
   z-index: 1;
 }
 
+/* Os quatro blocos da coluna de texto já estão na tela quando a página abre,
+   então revelariam todos no mesmo instante. O atraso escalonado transforma
+   isso numa cascata: título, texto, botões e selo. A propriedade é lida pela
+   transição declarada em globals.css. */
 .title {
+  --atraso: 0ms;
   font-size: 2.5rem;
   line-height: 1.14;
   font-weight: 600;
@@ -36,6 +41,7 @@
 }
 
 .lede {
+  --atraso: 90ms;
   margin-top: 20px;
   font-size: 1.05rem;
   line-height: 1.6;
@@ -44,6 +50,7 @@
 }
 
 .ctas {
+  --atraso: 180ms;
   margin-top: 30px;
   display: flex;
   flex-wrap: wrap;
@@ -52,6 +59,7 @@
 }
 
 .finePrint {
+  --atraso: 270ms;
   margin-top: 22px;
   font-size: 0.85rem;
   color: var(--cream-muted);

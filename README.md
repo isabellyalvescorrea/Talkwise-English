@@ -54,20 +54,57 @@ Copie `.env.example` para `.env.local`. Todas são opcionais.
 | Variável                    | Para que serve                                                                              |
 | --------------------------- | ------------------------------------------------------------------------------------------- |
 | `NEXT_PUBLIC_SITE_URL`      | URL canônica de metadados, Open Graph, JSON-LD, `robots.txt` e `sitemap.xml`. Aceita com ou sem `https://`. Vazia ou inválida, cai no domínio de produção que a Vercel injeta. |
-| `NEXT_PUBLIC_FORM_ENDPOINT` | Endpoint de um serviço de formulários. Definido, o formulário faz `POST` real.                |
+| `RESEND_API_KEY`            | Chave da Resend. Sem ela a rota de envio responde em modo demonstração e nada é enviado.       |
+| `EMAIL_REMETENTE`           | Remetente, no formato `Talkwise English <guia@seudominio.com>`. Precisa ser de um domínio verificado. |
+| `URL_GUIA`                  | Link do PDF do guia. Sem ela, o e-mail confirma o cadastro sem prometer anexo.                 |
+
+Só `NEXT_PUBLIC_SITE_URL` tem o prefixo `NEXT_PUBLIC_`, porque é a única que o
+navegador precisa ler. A chave da Resend nunca sai do servidor.
 
 ### Formulário de captura
 
-`components/LeadForm.tsx` tem dois modos:
+O formulário faz `POST` para `/api/guia`, uma rota do próprio projeto
+(`app/api/guia/route.ts`). É ela que fala com o provedor de e-mail, para a
+credencial ficar só no servidor.
 
-- **Sem `NEXT_PUBLIC_FORM_ENDPOINT`** (padrão): valida os campos, mostra o
-  estado de envio e exibe a confirmação, sem enviar nada para lugar nenhum.
-- **Com `NEXT_PUBLIC_FORM_ENDPOINT`**: faz `POST` com `{ nome, email, material }`
-  em JSON. Para usar o Formspree, aponte a variável para
-  `https://formspree.io/f/SEU_ID`.
+A rota tem dois modos:
 
-Há um campo-armadilha chamado `empresa`, invisível para pessoas: quando vem
-preenchido, o envio é descartado em silêncio.
+- **Sem `RESEND_API_KEY` ou `EMAIL_REMETENTE`** (padrão): valida tudo, registra
+  um aviso no log da função e responde `{ ok: true, modo: "demonstracao" }`.
+  A página confirma normalmente, mas **nenhum e-mail é enviado**.
+- **Com as duas definidas**: envia de verdade, pela API da Resend, e responde
+  `{ ok: true, modo: "enviado" }`. Falha do provedor vira `502`, e a página
+  mostra o estado de erro em vez de uma confirmação falsa.
+
+#### Como ligar o envio de verdade
+
+1. Criar conta na [Resend](https://resend.com) e gerar uma chave de API.
+2. **Verificar um domínio próprio** na Resend, apontando os registros DNS que
+   ela indica. Este passo não é opcional: sem domínio verificado a Resend só
+   deixa enviar para o e-mail da própria conta, o que serve para testar mas não
+   para atender visitantes. Um domínio `.vercel.app` não serve, porque o DNS
+   não é seu.
+3. Na Vercel, em Settings, Environment Variables, definir `RESEND_API_KEY` e
+   `EMAIL_REMETENTE`, e republicar.
+4. Hospedar o PDF do guia e apontar `URL_GUIA` para ele. **O guia em si ainda
+   não existe**: sem essa variável o e-mail confirma o cadastro e diz que o
+   material chega em seguida, em vez de oferecer um download que não abriria.
+
+#### O que protege a rota
+
+Um endpoint público que dispara e-mail é um convite a virar relé de spam. As
+defesas:
+
+- o assunto e o corpo são fixos no servidor. Do pedido só saem o endereço de
+  destino e o primeiro nome, usado na saudação, escapado e limitado a 40
+  caracteres. Não há como fazer a rota enviar texto arbitrário para terceiros;
+- validação de nome e e-mail no servidor, independente da validação da página;
+- campo-armadilha `empresa`, invisível para pessoas. Preenchido, o pedido é
+  descartado, mas a resposta é `200`, para não ensinar ao robô que a armadilha
+  existe;
+- limite de 5 pedidos por IP a cada 10 minutos. O contador vive na memória da
+  instância, então segura repetição óbvia, e não um ataque distribuído. Para
+  valer mesmo, o caminho é um limitador na borda.
 
 ---
 
@@ -77,6 +114,7 @@ preenchido, o envio é descartado em silêncio.
 public/
   logo-talkwise.png    arte da marca, recortada no limite do conteúdo
 app/
+  api/guia/route.ts    envio do guia por e-mail, via Resend
   layout.tsx           metadados, fontes e JSON-LD
   page.tsx             composição da página
   globals.css          tokens, reset e primitivas (.shell, .section, .btn-primary)
@@ -235,8 +273,15 @@ O observador nunca deixa de observar um alvo, então o efeito é reversível nos
 dois sentidos: o item some ao sair da faixa e volta a aparecer ao entrar de
 novo. Faixa de disparo: `threshold: 0.2` com `rootMargin: 0px 0px -12% 0px`.
 
-Medido a 375px, onde tudo empilha: os 22 itens aparecem em **22 posições de
-scroll distintas**, nenhuma simultânea. A 1280px os únicos grupos que aparecem
+A hero entra no mesmo sistema, com uma diferença: os quatro blocos da coluna
+de texto já estão na tela quando a página abre, então revelariam todos no mesmo
+instante. Um atraso escalonado de 0, 90, 180 e 270ms, lido da propriedade
+`--atraso` pela transição, transforma isso numa cascata de título, texto,
+botões e selo. O cartão de embarque ao lado fica de fora: ele já tem a própria
+entrada, que é a dobra do cartão.
+
+Medido a 375px, onde tudo empilha: os 22 itens das seções aparecem em **22
+posições de scroll distintas**, nenhuma simultânea. A 1280px os únicos grupos que aparecem
 juntos são os que estão lado a lado (a faixa de estatísticas em linha, as
 vantagens em duas colunas e os depoimentos em linha), o que é o comportamento
 correto para itens que entram na tela ao mesmo tempo.

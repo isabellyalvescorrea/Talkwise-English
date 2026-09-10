@@ -7,8 +7,10 @@ type Status = "idle" | "loading" | "success" | "error";
 
 const EMAIL = /^[^\s@]+@[^\s@]+\.[a-z]{2,}$/i;
 
-/** Endpoint opcional (Formspree, por exemplo). Sem ele, o envio é simulado. */
-const ENDPOINT = process.env.NEXT_PUBLIC_FORM_ENDPOINT;
+/* Rota própria do projeto. Ela é quem fala com o provedor de e-mail, para a
+   credencial nunca sair do servidor. Sem credencial configurada a rota
+   responde em modo demonstração e nada é enviado. */
+const ENDPOINT = "/api/guia";
 
 export default function LeadForm() {
   const uid = useId();
@@ -41,27 +43,21 @@ export default function LeadForm() {
       return;
     }
 
-    /* Campo-armadilha: só robôs preenchem. */
+    /* Campo-armadilha: só robôs preenchem. Vai junto para o servidor decidir. */
     const armadilha = evento.currentTarget.elements.namedItem("empresa") as HTMLInputElement | null;
-    if (armadilha?.value) return;
 
     setStatus("loading");
     try {
-      if (ENDPOINT) {
-        const resposta = await fetch(ENDPOINT, {
-          method: "POST",
-          headers: { "Content-Type": "application/json", Accept: "application/json" },
-          body: JSON.stringify({
-            nome: nome.trim(),
-            email: email.trim(),
-            material: "Guia: as 100 frases essenciais",
-          }),
-        });
-        if (!resposta.ok) throw new Error("falha no envio");
-      } else {
-        /* Sem back-end: a página apenas confirma visualmente. */
-        await new Promise((resolve) => setTimeout(resolve, 800));
-      }
+      const resposta = await fetch(ENDPOINT, {
+        method: "POST",
+        headers: { "Content-Type": "application/json", Accept: "application/json" },
+        body: JSON.stringify({
+          nome: nome.trim(),
+          email: email.trim(),
+          empresa: armadilha?.value ?? "",
+        }),
+      });
+      if (!resposta.ok) throw new Error("falha no envio");
       setStatus("success");
     } catch {
       setStatus("error");
