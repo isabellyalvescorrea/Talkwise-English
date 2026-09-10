@@ -40,7 +40,15 @@
 }
 
 .ticket {
-  background: var(--ticket);
+  /* Textura de papel: duas camadas de linhas cruzadas sobre a cor do cartão.
+     A cor sólida fica DENTRO da última camada, colada no segundo gradiente e
+     sem vírgula antes dela. Numa lista de camadas separadas por vírgula a cor
+     só é válida na última: posta antes, a declaração inteira é inválida e o
+     navegador a descarta, deixando o cartão transparente. */
+  background:
+    repeating-linear-gradient(45deg, rgba(20, 32, 43, 0.045) 0 1px, transparent 1px 11px),
+    repeating-linear-gradient(-45deg, rgba(20, 32, 43, 0.03) 0 1px, transparent 1px 15px)
+    var(--ticket);
   color: var(--ink);
   border-radius: 10px;
   max-width: 400px;

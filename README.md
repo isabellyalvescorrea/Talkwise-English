@@ -250,6 +250,27 @@ comportamento do protótipo. Nenhum valor de animação muda por causa disso.
 `prefers-reduced-motion: reduce` desliga as oito animações e deixa o cartão
 aberto, com o carimbo assentado, como no protótipo.
 
+O fundo do cartão leva uma textura de papel, duas camadas de linhas cruzadas
+sobre a cor `--ticket`:
+
+```css
+background:
+  repeating-linear-gradient(45deg, rgba(20, 32, 43, 0.045) 0 1px, transparent 1px 11px),
+  repeating-linear-gradient(-45deg, rgba(20, 32, 43, 0.03) 0 1px, transparent 1px 15px)
+  var(--ticket);
+```
+
+A cor sólida fica dentro da última camada, colada no segundo gradiente e sem
+vírgula antes dela. Isso não é estilo, é sintaxe: numa lista de camadas
+separadas por vírgula a cor só é válida na última. Escrita antes dos
+gradientes, a declaração inteira fica inválida, o navegador a descarta, e o
+cartão perde o fundo e fica transparente. Já aconteceu uma vez neste projeto.
+
+A textura deixa 85% da área no creme puro; o pixel mais escuro dela é
+`rgb(235, 232, 223)`, 8,45% mais escuro que o creme. Isso encosta no limite
+do contraste dos textos em `--ink-muted`, que caem de 4,95:1 para 4,55:1
+quando a letra cruza uma linha, ainda acima do mínimo de 4,5:1.
+
 A animação roda em laço sem controle de pausa na tela. O critério 2.2.2 do
 WCAG pede um mecanismo de pausa para movimento automático acima de 5s; o que
 existe aqui é o respeito a `prefers-reduced-motion`, que é a mitigação que o
