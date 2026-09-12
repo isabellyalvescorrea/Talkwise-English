@@ -441,20 +441,24 @@ do protótipo:
    "confiança." e o de "possibilidades." destoavam da palavra que encerram.
 8. Selo "TW" removido dos cartões de depoimento, e com ele o recuo de 40px que
    só existia para abrir espaço ao selo.
-9. "Fluência" e o carimbo "Aula confirmada" do cartão de embarque ficam em
-   `--c3` (`#8C6D45`), como no protótipo, o que dá 4,25:1 sobre o fundo do
-   cartão e reprova o mínimo de 4,5:1 do WCAG AA para texto normal. Foi
-   mantido assim a pedido, por fidelidade literal ao protótipo. O projeto já
-   tem o token `--c3-ink` (`#7A5C36`), que sobe para 5,46:1 no mesmo fundo,
-   caso se decida corrigir depois.
+9. Os elementos camel sólidos do cartão de embarque ("Fluência", o carimbo
+   "Aula confirmada" e a seta do avião) usam `--c3-ink` (`#7A5C36`) em vez do
+   `--c3` do protótipo. Em `--c3` os dois textos davam 4,25:1 sobre o creme do
+   cartão e reprovavam o mínimo de 4,5:1 do WCAG AA: "Fluência" tem 18,4px no
+   peso 600, logo abaixo dos dois critérios de texto grande (24px, ou 18,66px
+   em negrito), e o carimbo é texto de 10px. Com `--c3-ink` sobem para 5,46:1,
+   ou 5,02:1 quando a letra cruza uma linha da textura. A seta entrou junto,
+   embora já passasse como elemento não textual, para não sobrar `--c3` sólido
+   no cartão convivendo com o tom escurecido. Os dois degradês, o friso do topo
+   e o sublinhado de "Fluência", seguem com `--c3` na última parada: são
+   decorativos e compartilham o degradê usado no resto do site.
 
 ---
 
 ## Acessibilidade
 
-- 39 pares de cor auditados no navegador, com a exceção registrada no desvio
-  7; os textos sobre
-  degradê foram medidos por amostragem de pixel.
+- 40 pares de cor auditados no navegador, **zero reprovações**; os textos
+  sobre degradê foram medidos por amostragem de pixel.
 - Navegação por teclado completa: link para pular o conteúdo, foco visível,
   `Esc` fecha o menu mobile devolvendo o foco ao botão.
 - FAQ em `<details>` nativo, acessível por padrão.
