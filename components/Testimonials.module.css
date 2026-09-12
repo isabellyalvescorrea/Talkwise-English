@@ -22,27 +22,10 @@
   }
 }
 
-.stamp {
-  position: absolute;
-  top: 16px;
-  right: 16px;
-  width: 38px;
-  height: 38px;
-  border-radius: 50%;
-  border: 1.5px dashed var(--c2);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 0.6rem;
-  color: var(--c3-ink);
-  font-weight: 600;
-}
-
 .quote {
   font-size: 0.98rem;
   line-height: 1.55;
   max-width: 44ch;
-  padding-right: 40px;
   color: var(--ink);
 }
 

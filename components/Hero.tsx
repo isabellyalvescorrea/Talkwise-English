@@ -8,10 +8,12 @@ export default function Hero() {
       <div className={`shell ${styles.inner}`}>
         <div className={styles.copy}>
           <h1 className={styles.title} data-revelar>
+            {/* O ponto final entra dentro do span: solto, ele herdava o creme
+                do título e destoava da palavra que encerra. */}
             Fale <span className={styles.grey}>inglês</span> com{" "}
-            <span className={styles.emph}>confiança</span>.
+            <span className={styles.emph}>confiança.</span>
             <br />
-            Viva novas <span className={styles.grey}>possibilidades</span>.
+            Viva novas <span className={styles.grey}>possibilidades.</span>
           </h1>
 
           <p className={styles.lede} data-revelar>

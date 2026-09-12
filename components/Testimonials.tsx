@@ -12,9 +12,6 @@ export default function Testimonials() {
         <div className={styles.postcards}>
           {TESTIMONIALS.map((testimonial) => (
             <figure key={testimonial.meta} className={styles.postcard} data-revelar>
-              <span className={styles.stamp} aria-hidden>
-                TW
-              </span>
               <blockquote className={styles.quote}>
                 <p>{testimonial.quote}</p>
               </blockquote>

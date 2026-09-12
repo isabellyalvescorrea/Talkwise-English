@@ -56,16 +56,20 @@ Copie `.env.example` para `.env.local`. Todas são opcionais.
 | `NEXT_PUBLIC_SITE_URL`      | URL canônica de metadados, Open Graph, JSON-LD, `robots.txt` e `sitemap.xml`. Aceita com ou sem `https://`. Vazia ou inválida, cai no domínio de produção que a Vercel injeta. |
 | `RESEND_API_KEY`            | Chave da Resend. Sem ela a rota de envio responde em modo demonstração e nada é enviado.       |
 | `EMAIL_REMETENTE`           | Remetente, no formato `Talkwise English <guia@seudominio.com>`. Precisa ser de um domínio verificado. |
-| `URL_GUIA`                  | Link do PDF do guia. Sem ela, o e-mail confirma o cadastro sem prometer anexo.                 |
 
 Só `NEXT_PUBLIC_SITE_URL` tem o prefixo `NEXT_PUBLIC_`, porque é a única que o
 navegador precisa ler. A chave da Resend nunca sai do servidor.
 
 ### Formulário de captura
 
-O formulário faz `POST` para `/api/guia`, uma rota do próprio projeto
-(`app/api/guia/route.ts`). É ela que fala com o provedor de e-mail, para a
+O formulário faz `POST` para `/api/aula`, uma rota do próprio projeto
+(`app/api/aula/route.ts`). É ela que fala com o provedor de e-mail, para a
 credencial ficar só no servidor.
+
+O que o bloco oferece precisa ser o que os CTAs prometem. Os três botões que
+levam até ele, na faixa fixa, no hero e no cartão de embarque, falam em aula
+grátis, então é a aula experimental que está escrita ali e é ela que o e-mail
+confirma. Todo o texto do bloco mora em `LEAD`, em `lib/content.ts`.
 
 A rota tem dois modos:
 
@@ -86,9 +90,6 @@ A rota tem dois modos:
    não é seu.
 3. Na Vercel, em Settings, Environment Variables, definir `RESEND_API_KEY` e
    `EMAIL_REMETENTE`, e republicar.
-4. Hospedar o PDF do guia e apontar `URL_GUIA` para ele. **O guia em si ainda
-   não existe**: sem essa variável o e-mail confirma o cadastro e diz que o
-   material chega em seguida, em vez de oferecer um download que não abriria.
 
 #### O que protege a rota
 
@@ -114,7 +115,7 @@ defesas:
 public/
   logo-talkwise.png    arte da marca, recortada no limite do conteúdo
 app/
-  api/guia/route.ts    envio do guia por e-mail, via Resend
+  api/aula/route.ts    confirmação da aula experimental, via Resend
   layout.tsx           metadados, fontes e JSON-LD
   page.tsx             composição da página
   globals.css          tokens, reset e primitivas (.shell, .section, .btn-primary)
@@ -318,6 +319,12 @@ revelação por scroll acima, não uma imitação de hover.
 | depoimentos | sobem 4px e ganham sombra |
 | botões e logo | opacidade e elevação de 1px |
 
+Os dois botões do hero seguem pesos diferentes de propósito. O primário leva o
+degradê camel e uma sombra curta e rente; o secundário é vazado, com contorno
+em `rgba(245, 239, 230, 0.45)`, que dá 3,56:1 sobre o navy e cumpre o mínimo de
+3:1 para contorno de componente. Dois blocos preenchidos lado a lado disputavam
+a mesma atenção e não diziam qual é a ação principal.
+
 A barra à esquerda dos itens é desenhada por pseudo-elemento posicionado fora
 da caixa de conteúdo, em `left: -14px`. Uma `border-left` de verdade empurraria
 o texto, e alargaria o filete que separa os itens.
@@ -429,7 +436,12 @@ do protótipo:
 5. Títulos de "Vantagens" e "Método" em `--ink` em vez do preto padrão do
    navegador, alinhando com o resto do sistema de cores.
 6. Selo dos cartões-postais em `--c3-ink`, por ser texto de 9,6px.
-7. "Fluência" e o carimbo "Aula confirmada" do cartão de embarque ficam em
+7. Os pontos finais do título do hero ficam dentro dos trechos coloridos, em
+   vez de soltos no creme do título como no protótipo. Soltos, o ponto de
+   "confiança." e o de "possibilidades." destoavam da palavra que encerram.
+8. Selo "TW" removido dos cartões de depoimento, e com ele o recuo de 40px que
+   só existia para abrir espaço ao selo.
+9. "Fluência" e o carimbo "Aula confirmada" do cartão de embarque ficam em
    `--c3` (`#8C6D45`), como no protótipo, o que dá 4,25:1 sobre o fundo do
    cartão e reprova o mínimo de 4,5:1 do WCAG AA para texto normal. Foi
    mantido assim a pedido, por fidelidade literal ao protótipo. O projeto já

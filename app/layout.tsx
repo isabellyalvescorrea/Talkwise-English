@@ -14,7 +14,7 @@ const MARCA_REVELACAO = `document.documentElement.classList.add("revelar-ativo")
 
 const title = "Talkwise English: fale inglês com confiança";
 const description =
-  "Aulas de inglês ao vivo, em grupos pequenos, com professores nativos. Você pratica desde o primeiro encontro. Baixe grátis o guia com as 100 frases essenciais pra sua primeira conversa.";
+  "Aulas de inglês ao vivo, em grupos pequenos, com professores nativos. Você pratica desde o primeiro encontro. Reserve grátis sua aula experimental de 30 minutos, sem cartão de crédito.";
 
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
@@ -30,6 +30,7 @@ export const metadata: Metadata = {
     "professores nativos",
     "inglês em grupos pequenos",
     "aula de inglês grátis",
+    "aula experimental de inglês",
   ],
   authors: [{ name: "Talkwise English" }],
   alternates: { canonical: "/" },

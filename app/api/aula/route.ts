@@ -1,7 +1,7 @@
 import { SITE_URL } from "@/lib/site";
 
 /**
- * Envio do guia por e-mail.
+ * Confirmação do pedido de aula experimental, por e-mail.
  *
  * A rota nunca aceita conteúdo de e-mail vindo do navegador: o assunto e o
  * corpo são fixos aqui, e do pedido só saem o endereço de destino e o primeiro
@@ -11,8 +11,6 @@ import { SITE_URL } from "@/lib/site";
 
 const CHAVE = process.env.RESEND_API_KEY;
 const REMETENTE = process.env.EMAIL_REMETENTE;
-/** Link do material. Sem ele, o e-mail confirma o cadastro sem prometer anexo. */
-const URL_GUIA = process.env.URL_GUIA;
 
 const EMAIL = /^[^\s@]+@[^\s@]+\.[a-z]{2,}$/i;
 const LIMITE_POR_JANELA = 5;
@@ -48,50 +46,61 @@ function primeiroNome(bruto: string): string {
 
 function corpo(nome: string): { assunto: string; html: string; texto: string } {
   const seguro = escapar(nome);
-  const chamada = URL_GUIA
-    ? `<p style="margin:0 0 24px"><a href="${escapar(URL_GUIA)}" style="display:inline-block;background:#1B2733;color:#F5F1E8;text-decoration:none;padding:14px 24px;border-radius:6px;font-weight:600">Baixar o guia</a></p>`
-    : `<p style="margin:0 0 24px">O guia chega em seguida, neste mesmo endereço.</p>`;
-  const chamadaTexto = URL_GUIA
-    ? `Baixar o guia: ${URL_GUIA}`
-    : "O guia chega em seguida, neste mesmo endereço.";
 
   return {
-    assunto: "Seu guia: as 100 frases essenciais",
+    assunto: "Recebemos seu pedido de aula experimental",
     html: `<!doctype html>
 <html lang="pt-BR"><body style="margin:0;background:#16324F;padding:32px 16px;font-family:Helvetica,Arial,sans-serif">
   <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="max-width:560px;margin:0 auto;background:#F5F1E8;border-radius:12px">
     <tr><td style="height:5px;background:#B89768;border-radius:12px 12px 0 0"></td></tr>
     <tr><td style="padding:32px">
       <p style="margin:0 0 20px;font-size:12px;letter-spacing:1.4px;text-transform:uppercase;color:#5F6975">Talkwise English</p>
-      <h1 style="margin:0 0 16px;font-size:24px;line-height:1.3;color:#1B2733">Oi, ${seguro}. Seu guia está aqui.</h1>
+      <h1 style="margin:0 0 16px;font-size:24px;line-height:1.3;color:#1B2733">Oi, ${seguro}. Sua aula está reservada.</h1>
       <p style="margin:0 0 20px;font-size:15px;line-height:1.6;color:#1B2733">
-        São as 100 frases que resolvem a maior parte de uma primeira conversa em inglês:
-        apresentar-se, pedir informação, sair de um branco e encerrar sem constrangimento.
+        São 30 minutos ao vivo com um professor nativo. Você conversa desde o primeiro
+        minuto, descobre seu nível e sai com o plano dos 90 dias.
       </p>
-      ${chamada}
+      <table role="presentation" cellpadding="0" cellspacing="0" style="margin:0 0 24px;width:100%;border-collapse:collapse">
+        <tr>
+          <td style="padding:10px 0;border-top:1px solid rgba(27,39,51,0.14);font-size:14px;color:#5F6975">Duração</td>
+          <td style="padding:10px 0;border-top:1px solid rgba(27,39,51,0.14);font-size:14px;color:#1B2733;text-align:right">30 minutos</td>
+        </tr>
+        <tr>
+          <td style="padding:10px 0;border-top:1px solid rgba(27,39,51,0.14);font-size:14px;color:#5F6975">Formato</td>
+          <td style="padding:10px 0;border-top:1px solid rgba(27,39,51,0.14);font-size:14px;color:#1B2733;text-align:right">Ao vivo, com professor nativo</td>
+        </tr>
+        <tr>
+          <td style="padding:10px 0;border-top:1px solid rgba(27,39,51,0.14);border-bottom:1px solid rgba(27,39,51,0.14);font-size:14px;color:#5F6975">Custo</td>
+          <td style="padding:10px 0;border-top:1px solid rgba(27,39,51,0.14);border-bottom:1px solid rgba(27,39,51,0.14);font-size:14px;color:#1B2733;text-align:right">Gratuita, sem cartão</td>
+        </tr>
+      </table>
       <p style="margin:0 0 8px;font-size:14px;line-height:1.6;color:#5F6975">
-        Quando quiser praticar ao vivo, a aula experimental de 30 minutos é gratuita e não pede cartão.
+        Em breve entramos em contato neste mesmo endereço para combinar o melhor horário.
+        É só responder este e-mail se preferir sugerir um.
       </p>
       <p style="margin:0;font-size:14px"><a href="${SITE_URL}" style="color:#7A5C36">${SITE_URL}</a></p>
     </td></tr>
     <tr><td style="padding:0 32px 28px">
       <p style="margin:0;font-size:12px;line-height:1.5;color:#5F6975">
-        Você recebeu este e-mail porque pediu o guia no site da Talkwise English.
+        Você recebeu este e-mail porque pediu uma aula experimental no site da Talkwise English.
       </p>
     </td></tr>
   </table>
 </body></html>`,
-    texto: `Oi, ${nome}. Seu guia está aqui.
+    texto: `Oi, ${nome}. Sua aula está reservada.
 
-São as 100 frases que resolvem a maior parte de uma primeira conversa em inglês:
-apresentar-se, pedir informação, sair de um branco e encerrar sem constrangimento.
+São 30 minutos ao vivo com um professor nativo. Você conversa desde o primeiro
+minuto, descobre seu nível e sai com o plano dos 90 dias.
 
-${chamadaTexto}
+Duração: 30 minutos
+Formato: ao vivo, com professor nativo
+Custo: gratuita, sem cartão
 
-Quando quiser praticar ao vivo, a aula experimental de 30 minutos é gratuita e não pede cartão.
+Em breve entramos em contato neste mesmo endereço para combinar o melhor horário.
+É só responder este e-mail se preferir sugerir um.
 ${SITE_URL}
 
-Você recebeu este e-mail porque pediu o guia no site da Talkwise English.`,
+Você recebeu este e-mail porque pediu uma aula experimental no site da Talkwise English.`,
   };
 }
 
@@ -128,7 +137,7 @@ export async function POST(request: Request) {
      O aviso aparece no log da função para quem mantém o site. */
   if (!CHAVE || !REMETENTE) {
     console.warn(
-      "[guia] RESEND_API_KEY ou EMAIL_REMETENTE ausente: nenhum e-mail foi enviado.",
+      "[aula] RESEND_API_KEY ou EMAIL_REMETENTE ausente: nenhum e-mail foi enviado.",
     );
     return Response.json({ ok: true, modo: "demonstracao" });
   }
@@ -154,13 +163,13 @@ export async function POST(request: Request) {
 
     if (!resposta.ok) {
       const detalhe = await resposta.text().catch(() => "");
-      console.error("[guia] provedor recusou o envio:", resposta.status, detalhe.slice(0, 300));
+      console.error("[aula] provedor recusou o envio:", resposta.status, detalhe.slice(0, 300));
       return Response.json({ ok: false, erro: "envio recusado" }, { status: 502 });
     }
 
     return Response.json({ ok: true, modo: "enviado" });
   } catch (erro) {
-    console.error("[guia] falha ao falar com o provedor:", erro);
+    console.error("[aula] falha ao falar com o provedor:", erro);
     return Response.json({ ok: false, erro: "provedor indisponível" }, { status: 502 });
   }
 }

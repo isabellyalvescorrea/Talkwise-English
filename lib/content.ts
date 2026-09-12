@@ -29,6 +29,23 @@ export const TICKET = {
   action: "Embarcar",
 };
 
+/**
+ * Bloco de captura. O texto precisa cumprir o que os CTAs prometem: os três
+ * botões que levam até aqui falam em aula grátis, então é aula que tem de
+ * estar escrito aqui, e não outro material.
+ */
+export const LEAD = {
+  tag: "Aula experimental",
+  titulo: "Comece por uma aula de conversação gratuita.",
+  lede:
+    "Trinta minutos ao vivo com um professor nativo: você conversa desde o primeiro minuto, descobre seu nível e sai com o plano dos 90 dias.",
+  acao: "Reservar aula grátis",
+  enviando: "Enviando…",
+  nota: "Sem cartão de crédito. Você escolhe o melhor horário.",
+  sucesso: "Pedido recebido. Em breve entramos em contato para combinar o horário.",
+  erro: "Não foi possível enviar agora. Verifique a conexão e tente de novo.",
+};
+
 export type Stat = { num: string; label: string };
 
 export const STATS: Stat[] = [

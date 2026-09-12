@@ -1,6 +1,7 @@
 "use client";
 
 import { useId, useRef, useState, type FormEvent } from "react";
+import { LEAD } from "@/lib/content";
 import styles from "./LeadForm.module.css";
 
 type Status = "idle" | "loading" | "success" | "error";
@@ -10,7 +11,7 @@ const EMAIL = /^[^\s@]+@[^\s@]+\.[a-z]{2,}$/i;
 /* Rota própria do projeto. Ela é quem fala com o provedor de e-mail, para a
    credencial nunca sair do servidor. Sem credencial configurada a rota
    responde em modo demonstração e nada é enviado. */
-const ENDPOINT = "/api/guia";
+const ENDPOINT = "/api/aula";
 
 export default function LeadForm() {
   const uid = useId();
@@ -71,21 +72,19 @@ export default function LeadForm() {
       <div className="shell">
         <div className={styles.box}>
           <div>
-            <p className={styles.tag}>Conteúdo gratuito</p>
+            <p className={styles.tag}>{LEAD.tag}</p>
             <h2 className="serif" id={`${uid}-titulo`}>
-              As 100 frases essenciais pra sua primeira conversa em inglês.
+              {LEAD.titulo}
             </h2>
-            <p className={styles.lede}>
-              Baixe grátis o guia e comece a praticar hoje, antes mesmo da sua primeira aula.
-            </p>
+            <p className={styles.lede}>{LEAD.lede}</p>
             {status === "success" ? (
               <p className={styles.success} role="status">
-                Guia enviado. Confira seu e-mail.
+                {LEAD.sucesso}
               </p>
             ) : null}
             {status === "error" ? (
               <p className={styles.success} role="alert">
-                Não foi possível enviar agora. Verifique a conexão e tente de novo.
+                {LEAD.erro}
               </p>
             ) : null}
           </div>
@@ -160,11 +159,11 @@ export default function LeadForm() {
                 />
 
                 <button type="submit" className={styles.submit} disabled={carregando}>
-                  {carregando ? "Enviando…" : "Baixar guia grátis"}
+                  {carregando ? LEAD.enviando : LEAD.acao}
                 </button>
               </div>
 
-              <p className={styles.nota}>Sem spam. Cancele quando quiser.</p>
+              <p className={styles.nota}>{LEAD.nota}</p>
             </form>
           )}
         </div>
