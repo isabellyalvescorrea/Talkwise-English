@@ -2,8 +2,16 @@
   background: var(--navy);
 }
 
+/* Fundo cinza claro, com o degradê camel passando para a moldura.
+   As duas camadas são funções de degradê, nenhuma cor solta: a primeira pinta
+   a caixa de conteúdo e a segunda aparece só na faixa da borda, que fica
+   transparente. É o que preserva o canto arredondado, coisa que border-image
+   não faz. */
 .box {
-  background: linear-gradient(135deg, var(--c1), var(--c2) 60%, var(--c3));
+  background:
+    linear-gradient(var(--pastel), var(--pastel)) padding-box,
+    linear-gradient(135deg, var(--c1), var(--c2) 60%, var(--c3)) border-box;
+  border: 2px solid transparent;
   border-radius: 14px;
   padding: 44px 28px;
   display: flex;
@@ -78,7 +86,10 @@
   width: 100%;
   padding: 17px 18px;
   border-radius: 6px;
-  border: 1px solid rgba(27, 39, 51, 0.2);
+  /* Sobre o camel, o branco do campo já se destacava sozinho. Sobre o cinza
+     claro ele quase some, então quem delimita o campo passa a ser a borda, e
+     ela precisa dos 3:1 que o WCAG pede para contorno de componente. */
+  border: 1px solid rgba(27, 39, 51, 0.55);
   background: #ffffff;
   color: var(--ink);
   font-size: 0.95rem;
@@ -110,6 +121,7 @@
   align-self: flex-start;
   margin-top: 6px;
   background: #ffffff;
+  border: 1px solid rgba(138, 28, 16, 0.35);
   color: #8a1c10;
   font-size: 0.78rem;
   font-weight: 500;

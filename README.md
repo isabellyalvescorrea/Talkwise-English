@@ -91,6 +91,32 @@ A rota tem dois modos:
 3. Na Vercel, em Settings, Environment Variables, definir `RESEND_API_KEY` e
    `EMAIL_REMETENTE`, e republicar.
 
+#### Fundo e moldura
+
+O bloco tem fundo em `--pastel` e leva o degradê camel na moldura, e não no
+preenchimento. São duas camadas de fundo, ambas funções de degradê, recortadas
+uma na caixa de conteúdo e a outra na caixa da borda, que fica transparente:
+
+```css
+background:
+  linear-gradient(var(--pastel), var(--pastel)) padding-box,
+  linear-gradient(135deg, var(--c1), var(--c2) 60%, var(--c3)) border-box;
+border: 2px solid transparent;
+```
+
+É esse par de recortes que preserva o canto arredondado, coisa que
+`border-image` não faz.
+
+A troca mexeu em dois detalhes que dependiam do camel para existir. Sobre o
+degradê, o branco dos campos se destacava sozinho; sobre o cinza claro ele
+quase some, então quem delimita o campo passa a ser a borda, que subiu para
+`rgba(27, 39, 51, 0.55)` e dá 3,44:1, acima dos 3:1 que o WCAG pede para
+contorno de componente. Pelo mesmo motivo a pílula branca das mensagens de erro
+ganhou contorno.
+
+Em compensação, o texto do bloco saltou de 4,6:1 a 6,3:1 sobre o camel para
+13:1 a 15:1 sobre o cinza claro.
+
 #### O que protege a rota
 
 Um endpoint público que dispara e-mail é um convite a virar relé de spam. As
@@ -131,7 +157,7 @@ components/
   Benefits.tsx         vantagens de falar inglês
   Method.tsx           método em quatro etapas
   About.tsx            texto institucional e professores
-  LeadForm.tsx         bloco de captura em painel camel
+  LeadForm.tsx         bloco de captura, cinza claro com moldura camel
   Testimonials.tsx     depoimentos em cartão-postal
   Faq.tsx              acordeão com <details> nativo
   Footer.tsx
@@ -157,7 +183,7 @@ Para trocar textos, depoimentos, perguntas ou professores, edite apenas
 | `--ink-muted`  | `#5F6975` | texto de apoio                                         |
 | `--cream-text` | `#F5EFE6` | texto sobre marinho                                    |
 | `--cream-muted`| `#AEBAC9` | texto de apoio sobre marinho                           |
-| `--c1 · c2 · c3` | `#D9C4A3 · #B89768 · #8C6D45` | degradê camel dos botões e do bloco de captura |
+| `--c1 · c2 · c3` | `#D9C4A3 · #B89768 · #8C6D45` | degradê camel do botão primário e da moldura do bloco de captura |
 | `--c3-ink`     | `#7A5C36` | camel escurecido, para texto pequeno sobre fundo claro |
 | `--emph`       | `#E3BE8C` | a palavra "confiança" no título                        |
 | `--emph-grey`  | `#AAB4C0` | "inglês" e "possibilidades" no título                  |
