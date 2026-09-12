@@ -24,21 +24,11 @@
 /* Rótulo no estilo dos antigos eyebrows de seção: filete curto e texto
    pequeno. Em tinta sólida, porque o fundo aqui é o degradê camel. */
 .tag {
-  display: flex;
-  align-items: center;
-  gap: 8px;
   margin-bottom: 18px;
   font-size: 0.85rem;
   font-weight: 600;
   letter-spacing: 0.02em;
   color: var(--ink);
-}
-
-.tag::before {
-  content: "";
-  width: 16px;
-  height: 1px;
-  background: var(--ink);
 }
 
 .box h2 {
@@ -88,8 +78,10 @@
   border-radius: 6px;
   /* Sobre o camel, o branco do campo já se destacava sozinho. Sobre o cinza
      claro ele quase some, então quem delimita o campo passa a ser a borda, e
-     ela precisa dos 3:1 que o WCAG pede para contorno de componente. */
-  border: 1px solid rgba(27, 39, 51, 0.55);
+     ela precisa dos 3:1 que o WCAG pede para contorno de componente.
+     Daí ser --c3 e não --c2: o camel do meio é mais bonito aqui, mas dá
+     2,39:1 sobre o fundo do cartão, contra 4,17:1 deste. */
+  border: 1px solid var(--c3);
   background: #ffffff;
   color: var(--ink);
   font-size: 0.95rem;

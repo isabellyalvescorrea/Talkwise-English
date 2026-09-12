@@ -109,10 +109,11 @@ border: 2px solid transparent;
 
 A troca mexeu em dois detalhes que dependiam do camel para existir. Sobre o
 degradê, o branco dos campos se destacava sozinho; sobre o cinza claro ele
-quase some, então quem delimita o campo passa a ser a borda, que subiu para
-`rgba(27, 39, 51, 0.55)` e dá 3,44:1, acima dos 3:1 que o WCAG pede para
-contorno de componente. Pelo mesmo motivo a pílula branca das mensagens de erro
-ganhou contorno.
+quase some, então quem delimita o campo passa a ser a borda. Ela é `--c3`, e
+não o `--c2` do meio da paleta: o camel do meio fica mais bonito ali, mas dá
+2,39:1 sobre o fundo do cartão, abaixo dos 3:1 que o WCAG pede para contorno de
+componente, contra 4,17:1 do `--c3`. Pelo mesmo motivo a pílula branca das
+mensagens de erro ganhou contorno.
 
 Em compensação, o texto do bloco saltou de 4,6:1 a 6,3:1 sobre o camel para
 13:1 a 15:1 sobre o cinza claro.
